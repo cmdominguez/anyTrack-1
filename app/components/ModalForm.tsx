@@ -76,7 +76,7 @@ export default function ModalForm({ closeModal }: Prop) {
             </label>
             <input
               className="mb-5 mt-2 text-gray-600 focus:outline-none focus:border focus:border-blue-500 font-normal w-full h-10 flex items-center pl-3 text-sm border-gray-300 rounded border"
-              placeholder="Moreno"
+              placeholder="Moreno, Buenos Aires"
               name="destino"
               value={valueInput.destino}
               onChange={handleChange}
@@ -84,20 +84,20 @@ export default function ModalForm({ closeModal }: Prop) {
             <div className="flex items-center justify-start w-full">
               <button
                 type="submit"
-                className="focus:outline-none transition duration-150 ease-in-out hover:bg-blue-600 bg-blue-500 rounded text-white px-8 py-2 text-sm"
+                className="focus:outline-none transition duration-150 ease-in-out hover:bg-blue-700 bg-blue-500 rounded text-white px-8 py-2 text-sm"
               >
-                Submit
+                Enviar
               </button>
               <button
                 onClick={closeModal}
                 className="focus:outline-none ml-3 bg-gray-100 transition duration-150 text-gray-600 ease-in-out hover:border-gray-400 hover:bg-gray-300 border rounded px-8 py-2 text-sm"
               >
-                Cancel
+                Cancelar
               </button>
             </div>
             <div
               onClick={closeModal}
-              className="cursor-pointer absolute top-0 right-0 mt-4 mr-5 text-gray-400 hover:text-gray-600 transition duration-150 ease-in-out"
+              className="cursor-pointer absolute top-0 right-0 mt-4 mr-5 text-blue-500 hover:text-blue-700 transition duration-150 ease-in-out"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"

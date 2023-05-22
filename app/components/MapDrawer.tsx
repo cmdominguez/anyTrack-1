@@ -33,7 +33,8 @@ export default function MapDrawer() {
   return (
     <div className="flex justify-center">
       <MapContainer
-        style={{ width: 350, height: 350 }}
+        //style={{ width: 350, height: 350 }}
+        className="h-56 w-full lg:w-[350px] lg:h-[350px] md:w-[350px] md:h-[350px]"
         center={[-34.60053094260835, -58.41538690030575]}
         zoom={10}
         scrollWheelZoom={false}

@@ -30,7 +30,7 @@ export default function Home() {
       <h1 className="mb-5 mt-3 font-bold tracking-[0.5px] text-lg text-slate-800">
         Shipping <span className="text-gray-500">({shippings.length})</span>
       </h1>
-      <div className="grid lg:grid-cols-4 grid-cols-3 gap-4">
+      <div className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-4 pb-2">
         {showModal ? (
           <ModalForm closeModal={closeModal} />
         ) : (

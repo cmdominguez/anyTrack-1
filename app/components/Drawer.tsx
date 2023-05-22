@@ -19,11 +19,11 @@ export default function Drawer({ showDrawer, toggleDrawer, item }: Prop) {
 
   return (
     <div
-      className={`bg-slate-50 fixed right-0 top-0 h-full w-96 transition-transform duration-1000 ease-in-out overflow-y-auto ${
+      className={`bg-slate-50 fixed right-0 top-0 h-full lg:w-96 md:w-96 w-full transition-transform duration-1000 ease-in-out overflow-y-auto ${
         showDrawer ? "translate-x-0" : "translate-x-full"
       }`}
     >
-      <div className="flex justify-end items-center p-4">
+      <div className="flex justify-start items-center p-4">
         <button
           className="text-blue-500 hover:text-blue-700 focus:outline-none text-xl"
           onClick={toggleDrawer}
@@ -108,7 +108,7 @@ export default function Drawer({ showDrawer, toggleDrawer, item }: Prop) {
           </span>
         </div>
       </div>
-      <div className="px-4 flex items-end h-[150px]">
+      <div className="px-4 flex items-end lg:h-[150px] md:h-[150px] h-[260px]">
         <div className="flex-1 justify-between">
           <div className="flex flex-1 justify-between mb-4">
             <p className="tracking-[0.4px] text-gray-500 text-[12px]">
