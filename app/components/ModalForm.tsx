@@ -2,6 +2,8 @@
 import React, { useState } from "react";
 import { FiTruck } from "react-icons/fi";
 import { useShippingStore } from "../store/shippingStore";
+import { useValidate } from "../hook/useValidate";
+import InputCustom from "./InputCustom";
 
 type Prop = {
   closeModal: () => void;
@@ -9,12 +11,15 @@ type Prop = {
 
 export default function ModalForm({ closeModal }: Prop) {
   const { addShipping } = useShippingStore();
+  const [sent, setSent] = useState(false);
   const [valueInput, setValueInput] = useState({
     nombrechofer: "",
     patente: "",
     vahiculo: "",
+    origen: "",
     destino: "",
   });
+  const errors = useValidate(valueInput);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValueInput({ ...valueInput, [e.target.name]: e.target.value });
@@ -22,75 +27,89 @@ export default function ModalForm({ closeModal }: Prop) {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setSent(true);
+
+    if (
+      !valueInput.nombrechofer ||
+      !valueInput.patente ||
+      !valueInput.vahiculo ||
+      !valueInput.origen ||
+      !valueInput.destino
+    ) {
+      return;
+    }
+
     closeModal();
     addShipping(valueInput);
   };
 
   return (
     <div>
-      <div
-        className="py-12 overflow-auto bg-slate-500/80 transition duration-150 ease-in-out z-10 absolute top-0 right-0 bottom-0 left-0"
-        id="modal"
-      >
+      <div className="py-12 overflow-auto min-h-screen bg-slate-500/80 transition duration-150 ease-in-out z-10 fixed top-0 right-0 bottom-0 left-0">
         <div className="container mx-auto w-11/12 md:w-2/3 max-w-lg">
           <form
             onSubmit={handleSubmit}
-            className="relative py-8 px-5 md:px-10 bg-white shadow-md rounded border border-gray-400"
+            className="relative py-8 px-5 md:px-10 bg-secondary shadow-md rounded-[20px] border border-gray-400"
           >
             <FiTruck className="text-blue-500 text-4xl mb-3" />
             <h1 className="text-slate-800 font-lg font-bold tracking-[0.4px] leading-tight mb-4">
               Completar Información
             </h1>
-            <label className="text-slate-800 text-[13px] font-bold leading-tight tracking-normal">
-              Nombre del chofer
-            </label>
-            <input
-              className="mb-5 mt-2 text-gray-600 focus:outline-none focus:border focus:border-blue-500 font-normal w-full h-10 flex items-center pl-3 text-sm border-gray-300 rounded border"
+            <InputCustom
+              label="Nombre del chofer"
               placeholder="James Doe"
+              sent={sent}
+              errors={errors.nombrechofer}
+              handleChange={handleChange}
+              valueInput={valueInput.nombrechofer}
               name="nombrechofer"
-              value={valueInput.nombrechofer}
-              onChange={handleChange}
             />
-            <label className="text-slate-800 text-[13px] font-bold leading-tight tracking-normal">
-              Patente del vehículo
-            </label>
-            <input
-              className="mb-5 mt-2 text-gray-600 focus:outline-none focus:border focus:border-blue-500 font-normal w-full h-10 flex items-center pl-3 text-sm border-gray-300 rounded border"
+            <InputCustom
+              label="Patente del vehículo"
               placeholder="875FDR"
+              sent={sent}
+              errors={errors.patente}
+              handleChange={handleChange}
+              valueInput={valueInput.patente}
               name="patente"
-              value={valueInput.patente}
-              onChange={handleChange}
             />
-            <label className="text-slate-800 text-[13px] font-bold leading-tight tracking-normal">
-              Modelo del vehículo
-            </label>
-            <input
-              className="mb-5 mt-2 text-gray-600 focus:outline-none focus:border focus:border-blue-500 font-normal w-full h-10 flex items-center pl-3 text-sm border-gray-300 rounded border"
+            <InputCustom
+              label="Modelo del vehículo"
               placeholder="Toyota Corolla"
+              sent={sent}
+              errors={errors.vahiculo}
+              handleChange={handleChange}
+              valueInput={valueInput.vahiculo}
               name="vahiculo"
-              value={valueInput.vahiculo}
-              onChange={handleChange}
             />
-            <label className="text-slate-800 text-[13px] font-bold leading-tight tracking-normal">
-              Destino
-            </label>
-            <input
-              className="mb-5 mt-2 text-gray-600 focus:outline-none focus:border focus:border-blue-500 font-normal w-full h-10 flex items-center pl-3 text-sm border-gray-300 rounded border"
+            <InputCustom
+              label="Origen"
+              placeholder="Palermo, Buenos Aires"
+              sent={sent}
+              errors={errors.origen}
+              handleChange={handleChange}
+              valueInput={valueInput.origen}
+              name="origen"
+            />
+            <InputCustom
+              label="Destino"
               placeholder="Moreno, Buenos Aires"
+              sent={sent}
+              errors={errors.destino}
+              handleChange={handleChange}
+              valueInput={valueInput.destino}
               name="destino"
-              value={valueInput.destino}
-              onChange={handleChange}
             />
             <div className="flex items-center justify-start w-full">
               <button
                 type="submit"
-                className="focus:outline-none transition duration-150 ease-in-out hover:bg-blue-700 bg-blue-500 rounded text-white px-8 py-2 text-sm"
+                className="focus:outline-none transition duration-150 ease-in-out hover:bg-blue-700 bg-blue-500 rounded text-white px-8 py-2 text-sm mt-5"
               >
                 Enviar
               </button>
               <button
                 onClick={closeModal}
-                className="focus:outline-none ml-3 bg-gray-100 transition duration-150 text-gray-600 ease-in-out hover:border-gray-400 hover:bg-gray-300 border rounded px-8 py-2 text-sm"
+                className="focus:outline-none ml-3 bg-gray-100 transition duration-150 text-gray-600 ease-in-out hover:border-gray-400 hover:bg-gray-300 border rounded px-8 py-2 text-sm mt-5"
               >
                 Cancelar
               </button>

@@ -1,17 +1,38 @@
 import React from "react";
-import { CiSearch } from "react-icons/ci";
 
-export default function InputCustom() {
+type Prop = {
+  label: string;
+  sent: boolean; //sent: para que no marque el input requerido la primera vez
+  valueInput: string;
+  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  errors: string;
+  placeholder: string;
+  name: string;
+};
+
+export default function InputCustom({ ...props }: Prop) {
+  const { label, sent, valueInput, handleChange, errors, name, placeholder } =
+    props;
+
   return (
-    <div className="mt-3 mb-6 relative">
-      <input
-        placeholder="Buscar por número de patente"
-        className="text-gray-600 bg-slate-50 focus:outline-none focus:border focus:border-blue-500 font-normal lg:w-[35%] w-full h-10 flex items-center pl-[36px] text-sm border-gray-300 rounded border"
-      />
-      <CiSearch
-        className="absolute text-gray-600 top-[11px] left-3"
-        size={18}
-      />
-    </div>
+    <>
+      <label className="text-slate-800 text-[13px] font-bold leading-tight tracking-normal">
+        {label}
+      </label>
+      <div className="relative">
+        <input
+          className="mb-5 mt-2 text-gray-600 bg-primary focus:outline-none focus:border focus:border-blue-500 font-normal w-full h-10 flex items-center pl-3 text-sm border-gray-300 rounded border"
+          placeholder={placeholder}
+          name={name}
+          value={valueInput}
+          onChange={handleChange}
+        />
+        {sent && errors ? (
+          <p className="absolute top-[41px] text-[11px] italic text-red-600">
+            {errors}
+          </p>
+        ) : null}
+      </div>
+    </>
   );
 }

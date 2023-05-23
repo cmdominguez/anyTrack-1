@@ -12,7 +12,7 @@ type Prop = {
 export default function CardDashboard({ onPress, item }: Prop) {
   return (
     <div
-      className="bg-slate-50 rounded-lg p-3 cursor-pointer border-b-green-600 border-b-4 shadow-lg"
+      className="bg-secondary rounded-lg p-3 cursor-pointer border-b-green-600 border-b-4 shadow-lg"
       onClick={() => onPress(item)}
     >
       <div className="flex flex-col gap-2">
