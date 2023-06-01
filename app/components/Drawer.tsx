@@ -5,8 +5,9 @@ import { AiOutlineCalendar } from "react-icons/ai";
 import { BsTelephone, BsChatLeft } from "react-icons/bs";
 import { TbPointFilled } from "react-icons/tb";
 //componentes
-import MapDrawer from "./MapDrawer";
 import TagsInTravel from "./TagsInTravel";
+import dynamic from "next/dynamic";
+
 
 type Prop = {
   showDrawer: boolean;
@@ -16,6 +17,11 @@ type Prop = {
 
 export default function Drawer({ showDrawer, toggleDrawer, item }: Prop) {
   if (!showDrawer) return null;
+
+  const MapWithNoSSR = React.useMemo(() => dynamic(() => import('./MapDrawer'), {
+    loading: () => <p>A map is loading</p>,
+    ssr: false,
+  }), []);
 
   return (
     <div
@@ -51,7 +57,7 @@ export default function Drawer({ showDrawer, toggleDrawer, item }: Prop) {
         </div>
       </div>
       <div>
-        <MapDrawer />
+        <MapWithNoSSR />
       </div>
       <div className="px-4 mt-4 flex justify-between py-1">
         <div className="flex gap-3">

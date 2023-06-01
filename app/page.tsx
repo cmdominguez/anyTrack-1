@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import CardDashboard from "./components/CardDashboard";
 import Drawer from "./components/Drawer";
 import { Shipping } from "./interface/interfaceShipping";
-import { IoAddCircleSharp } from "react-icons/all";
+import { IoAddCircleSharp } from "react-icons/io5";
 import ModalForm from "./components/ModalForm";
 import { useShippingStore } from "./store/shippingStore";
 import SearchCustom from "./components/SearchCustom";

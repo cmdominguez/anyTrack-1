@@ -1,0 +1,78 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Driver {
+  id        Int        @id @default(autoincrement())
+  email     String     @unique
+  name      String?
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  Shipping  Shipping[]
+}
+
+model VehicleType {
+  id        Int       @id @default(autoincrement())
+  name      String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  Vehicle   Vehicle[]
+}
+
+model Vehicle {
+  id            Int         @id @default(autoincrement())
+  patent        String?
+  type          VehicleType @relation(references: [id], fields: [vehicleTypeId])
+  position      Json?
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  vehicleTypeId Int
+  Shipping      Shipping[]
+}
+
+model ShippingStatus {
+  id        Int        @id @default(autoincrement())
+  name      String?
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  Shipping  Shipping[]
+}
+
+model ClientUser {
+  id                Int        @id @default(autoincrement())
+  name              String
+  dni               String
+  phone             String
+  address           String
+  createdAt         DateTime   @default(now())
+  updatedAt         DateTime   @updatedAt
+  receiverShippings Shipping[] @relation("ReceiverUser")
+  sendedShippings   Shipping[] @relation("SenderUser")
+}
+
+model Shipping {
+  id               Int            @id @default(autoincrement())
+  updatedAt        DateTime       @updatedAt
+  createdAt        DateTime       @default(now())
+  origin           Json
+  destination      Json
+  driver           Driver         @relation(fields: [driverId], references: [id])
+  driverId         Int
+  vehicle          Vehicle        @relation(fields: [vehicleId], references: [id])
+  vehicleId        Int
+  status           ShippingStatus @relation(fields: [shippingStatusId], references: [id])
+  shippingStatusId Int
+  shipload         String
+  receiver         ClientUser     @relation("ReceiverUser", fields: [receiverId], references: [id])
+  receiverId       Int
+  sender           ClientUser     @relation("SenderUser", fields: [senderId], references: [id])
+  senderId         Int
+}
