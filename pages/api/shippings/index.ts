@@ -39,7 +39,7 @@ const handleGet = async (req: NextApiRequest, res: NextApiResponse) => {
       },
     },
   });
-  res.status(200).json(shippings);
+  res.status(200).send(shippings);
 };
 
 const handlePost = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -71,9 +71,9 @@ const handlePost = async (req: NextApiRequest, res: NextApiResponse) => {
     } else {
       res.status(500).json("Error to create shipping");
     }
-  } catch(e) {
+  } catch (e) {
     res.status(500).json(e);
-    throw e
+    throw e;
   }
 };
 
@@ -83,13 +83,10 @@ export default async function handler(
 ) {
   switch (req.method) {
     case "GET":
-      handleGet(req, res);
-      break;
+      return handleGet(req, res);
     case "POST":
-      handlePost(req, res);
-      break;
+      return handlePost(req, res);
     default:
-      res.status(405).json("error");
-      break;
+      return res.status(405).json("error");
   }
 }

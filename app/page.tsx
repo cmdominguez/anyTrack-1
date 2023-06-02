@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CardDashboard from "./components/CardDashboard";
 import Drawer from "./components/Drawer";
 import { Shipping } from "./interface/interfaceShipping";
@@ -9,11 +9,15 @@ import { useShippingStore } from "./store/shippingStore";
 import SearchCustom from "./components/SearchCustom";
 
 export default function Home() {
-  const { shippings } = useShippingStore();
+  const { shippings, getShippings } = useShippingStore();
   const [showModal, setShowModal] = useState(false);
   const [shippingSelected, setShippingSelected] = useState<Shipping | null>(
     null
   );
+
+  useEffect(() => {
+    getShippings();
+  }, [getShippings]);
 
   const onPress = (item: Shipping) => {
     setShippingSelected(item);
