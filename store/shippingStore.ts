@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { Shipping } from "../interface/interfaceShipping";
+import { Shipping } from "../app/interface/interfaceShipping";
 import { immer } from "zustand/middleware/immer";
 import axios from "axios";
 

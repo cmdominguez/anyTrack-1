@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { FiTruck } from "react-icons/fi";
-import { useShippingStore } from "../store/shippingStore";
+import { useShippingStore } from "../../store/shippingStore";
 import { useValidate } from "../hook/useValidate";
 import InputCustom from "./InputCustom";
 

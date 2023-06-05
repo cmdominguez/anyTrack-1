@@ -39,7 +39,7 @@ const handleGet = async (req: NextApiRequest, res: NextApiResponse) => {
       },
     },
   });
-  res.status(200).send(shippings);
+  res.status(200).json(shippings);
 };
 
 const handlePost = async (req: NextApiRequest, res: NextApiResponse) => {
