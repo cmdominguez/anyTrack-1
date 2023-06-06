@@ -1,12 +1,24 @@
-import { Prisma, PrismaClient, Shipping } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
-
-const prisma = new PrismaClient();
+import { prisma } from '../../../db';
 
 const handleGet = async (req: NextApiRequest, res: NextApiResponse) => {
+  const where: Prisma.ShippingWhereInput = req.query.status
+    ? {
+        shippingStatusId: {
+          equals: Number(req.query.status),
+        },
+      }
+    : {};
   const shippings = await prisma.shipping.findMany({
+    where,
     select: {
       shipload: true,
+      status: {
+        select: {
+          name: true,
+        }
+      },
       driver: {
         select: {
           name: true,
@@ -71,9 +83,8 @@ const handlePost = async (req: NextApiRequest, res: NextApiResponse) => {
     } else {
       res.status(500).json("Error to create shipping");
     }
-  } catch (e) {
-    res.status(500).json(e);
-    throw e;
+  } catch (e: any) {
+    res.status(500).send(e.message);
   }
 };
 

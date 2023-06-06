@@ -8,12 +8,14 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+  relationMode = "foreignKeys"
 }
 
 model Driver {
   id        Int        @id @default(autoincrement())
   email     String     @unique
   name      String?
+  dni       String     @unique @default("dni")
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
   Shipping  Shipping[]
@@ -29,7 +31,7 @@ model VehicleType {
 
 model Vehicle {
   id            Int         @id @default(autoincrement())
-  patent        String?
+  patent        String      @unique
   type          VehicleType @relation(references: [id], fields: [vehicleTypeId])
   position      Json?
   createdAt     DateTime    @default(now())
