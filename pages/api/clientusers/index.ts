@@ -1,6 +1,6 @@
 import { Prisma } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
-import { prisma } from '../../../db';
+import { prisma } from "../../../db";
 
 const handleGet = async (req: NextApiRequest, res: NextApiResponse) => {
   const where = req.query.search
@@ -31,6 +31,7 @@ const handleGet = async (req: NextApiRequest, res: NextApiResponse) => {
       dni: true,
       name: true,
       phone: true,
+      id: true,
     },
   });
   res.status(200).json(clientUsers);
@@ -72,4 +73,3 @@ export default async function handler(
       return res.status(405).json("error");
   }
 }
-

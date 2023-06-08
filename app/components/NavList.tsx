@@ -7,12 +7,13 @@ import { BsCreditCard } from "react-icons/bs";
 import { FiTruck } from "react-icons/fi";
 import { RxCross1 } from "react-icons/rx";
 import { AiOutlineMenu } from "react-icons/ai";
-import { BsBoxFill } from "react-icons/bs";
+import { BsBoxFill, BsPerson } from "react-icons/bs";
 
 const links = [
   { label: "Dashboard", route: "/", icon: <RxDashboard size={22} /> },
   { label: "Delivery info", route: "/delivery", icon: <BiHomeAlt size={22} /> },
   { label: "Payment", route: "/payment", icon: <BsCreditCard size={22} /> },
+  { label: "Clientes", route: "/clients", icon: <BsPerson size={22} /> },
 ];
 
 export default function NavList() {

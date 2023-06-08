@@ -2,10 +2,10 @@ import React from "react";
 
 type Prop = {
   label: string;
-  sent: boolean; //sent: para que no marque el input requerido la primera vez
+  sent?: boolean; //sent: para que no marque el input requerido la primera vez
   valueInput: string;
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  errors: string;
+  errors?: string;
   placeholder: string;
   name: string;
 };
