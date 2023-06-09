@@ -13,6 +13,16 @@ const handleGet = async (req: NextApiRequest, res: NextApiResponse) => {
     : {};
   const vehicles = await prisma.vehicle.findMany({
     where,
+    select: {
+      id: true,
+      patent: true,
+      type: {
+        select: {
+          id: true,
+          name: true,
+        }
+      },
+    }
   });
   res.status(200).json(vehicles);
 };
