@@ -1,13 +1,13 @@
 "use client";
 import { useClientUsersStore } from "@/store/clientUsersStore";
 import React from "react";
-import { useContextGlobal } from "../context/ContextGlobal";
+import { useContextClients } from "../context/ContextClients";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { AiOutlineEdit } from "react-icons/ai";
 
 export default function TableClients() {
   const { clients, deleteClient } = useClientUsersStore();
-  const { idClient } = useContextGlobal();
+  const { idClient } = useContextClients();
 
   const handleDeleteClient = (id: string) => {
     const confirmDelete = window.confirm(

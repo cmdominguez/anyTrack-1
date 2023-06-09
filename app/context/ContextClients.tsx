@@ -12,9 +12,9 @@ interface AppContext {
   showModalClient: boolean;
 }
 
-const GlobalContext = createContext({} as AppContext);
+const GlobalContextClients = createContext({} as AppContext);
 
-export const ContextGlobal = ({ children }: { children: React.ReactNode }) => {
+export const ContextClients = ({ children }: { children: React.ReactNode }) => {
   const [showModalClient, setShowModalClient] = useState(false);
   const [clientId, setClientId] = useState<string | null>(null);
   const [objectToEdit, setObjectToEdit] = useState<Client | null>(null);
@@ -39,7 +39,7 @@ export const ContextGlobal = ({ children }: { children: React.ReactNode }) => {
   };
 
   return (
-    <GlobalContext.Provider
+    <GlobalContextClients.Provider
       value={{
         idClient,
         clientId,
@@ -50,12 +50,12 @@ export const ContextGlobal = ({ children }: { children: React.ReactNode }) => {
       }}
     >
       {children}
-    </GlobalContext.Provider>
+    </GlobalContextClients.Provider>
   );
 };
 
-export const useContextGlobal = () => {
-  const context = useContext(GlobalContext);
+export const useContextClients = () => {
+  const context = useContext(GlobalContextClients);
 
   return context;
 };

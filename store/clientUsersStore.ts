@@ -8,7 +8,7 @@ type State = {
 };
 
 type Actions = {
-  getClients: () => void;
+  getClients: (value: string) => void;
   addClient: (values: Client) => void;
   deleteClient: (id: string) => void;
   editClient: (id: string, values: Client) => void;
@@ -18,10 +18,10 @@ export const useClientUsersStore = create<State & Actions>((set) => ({
   clients: [],
   isLoading: false,
 
-  getClients: async () => {
+  getClients: async (value: string) => {
     try {
       set({ isLoading: true });
-      const { data } = await axios.get("/api/clientusers");
+      const { data } = await axios.get(`/api/clientusers?search=${value}`);
       set({ clients: data });
     } catch (error) {
       console.log(error);

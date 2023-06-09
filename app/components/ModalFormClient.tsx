@@ -2,13 +2,14 @@
 import React, { useEffect, useState } from "react";
 import InputCustom from "./InputCustom";
 import { useClientUsersStore } from "@/store/clientUsersStore";
-import { useContextGlobal } from "../context/ContextGlobal";
+import { useContextClients } from "../context/ContextClients";
 import LayoutFormModal from "./LayoutFormModal";
 import { useValidateFormClients } from "../hook/useValidateFormClients";
 
 export default function ModalFormClient() {
   const { addClient, editClient } = useClientUsersStore();
-  const { clientId, objectToEdit, closeModal } = useContextGlobal();
+  const { clientId, objectToEdit, closeModal, showModalClient } =
+    useContextClients();
   const [sent, setSent] = useState(false);
   const [valueInput, setValueInput] = useState({
     address: "",
@@ -28,7 +29,16 @@ export default function ModalFormClient() {
         phone: objectToEdit.phone,
       });
     }
-  }, []);
+
+    if (!showModalClient) {
+      setValueInput({ address: "", dni: "", name: "", phone: "" });
+      setSent(false);
+    }
+  }, [showModalClient]);
+
+  if (!showModalClient) {
+    return null;
+  }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValueInput({ ...valueInput, [e.target.name]: e.target.value });
@@ -58,7 +68,7 @@ export default function ModalFormClient() {
   return (
     <LayoutFormModal handleSubmit={handleSubmit} closeModal={closeModal}>
       <h1 className="text-slate-800 font-lg font-bold tracking-[0.4px] leading-tight mb-4">
-        {objectToEdit !== null ? "Editar Información" : "Completar Información"}
+        {objectToEdit !== null ? "Editar cliente" : "Agregar cliente"}
       </h1>
       <InputCustom
         label="Nombre del cliente"

@@ -1,5 +1,5 @@
 import NavList from "./components/NavList";
-import { ContextGlobal } from "./context/ContextGlobal";
+import { ContextClients } from "./context/ContextClients";
 import "./globals.css";
 import { Inter } from "next/font/google";
 
@@ -21,7 +21,7 @@ export default function RootLayout({
         <main className="bg-primary flex">
           <NavList />
           <div className="min-h-screen flex container mx-auto">
-            <ContextGlobal>{children}</ContextGlobal>
+            <ContextClients>{children}</ContextClients>
           </div>
         </main>
       </body>

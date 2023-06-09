@@ -68,10 +68,10 @@ export default function NavList() {
       </nav>
       {/* responsive */}
       <nav className="lg:hidden">
-        <div className="ml-3">
+        <div className="lg:ml-0">
           <AiOutlineMenu
             size={22}
-            className="text-blue-500 mt-5 fixed"
+            className="text-blue-500 mt-5 fixed left-[6px]"
             onClick={() => setShowMenu(true)}
           />
         </div>
