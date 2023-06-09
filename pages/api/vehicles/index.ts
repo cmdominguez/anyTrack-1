@@ -7,6 +7,7 @@ const handleGet = async (req: NextApiRequest, res: NextApiResponse) => {
     ? {
         patent: {
           contains: String(req.query.search),
+          mode: 'insensitive',
         },
       }
     : {};

@@ -4,7 +4,7 @@ import { prisma } from '../../../db';
 
 const handleGet = async (req: NextApiRequest, res: NextApiResponse) => {
 
-  const where = req.query.search
+  const where: Prisma.DriverWhereInput = req.query.search
     ? {
         OR: [
           {
@@ -15,6 +15,7 @@ const handleGet = async (req: NextApiRequest, res: NextApiResponse) => {
           {
             email: {
               contains: String(req.query.search),
+              mode: 'insensitive',
             },
           },
         ],

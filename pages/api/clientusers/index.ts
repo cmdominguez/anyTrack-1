@@ -3,7 +3,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { prisma } from "../../../db";
 
 const handleGet = async (req: NextApiRequest, res: NextApiResponse) => {
-  const where = req.query.search
+  const where: Prisma.ClientUserWhereInput = req.query.search
     ? {
         OR: [
           {
@@ -14,11 +14,13 @@ const handleGet = async (req: NextApiRequest, res: NextApiResponse) => {
           {
             name: {
               contains: String(req.query.search),
+              mode: 'insensitive',
             },
           },
           {
             address: {
               contains: String(req.query.search),
+              mode: 'insensitive',
             },
           },
         ],
