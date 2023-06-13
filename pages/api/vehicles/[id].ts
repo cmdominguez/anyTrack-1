@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { prisma } from '../../../db';
+import { prisma } from "../../../db";
 
 const handleGet = async (req: NextApiRequest, res: NextApiResponse) => {
   const vehicle = await prisma.vehicle.findUnique({
@@ -13,6 +13,16 @@ const handleGet = async (req: NextApiRequest, res: NextApiResponse) => {
 const handlePut = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const updatedVehicle = await prisma.vehicle.update({
+      select: {
+        id: true,
+        patent: true,
+        type: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+      },
       where: {
         id: Number(req.query.id),
       },
@@ -31,7 +41,7 @@ const handleDelete = async (req: NextApiRequest, res: NextApiResponse) => {
         id: Number(req.query.id),
       },
     });
-    res.status(200).json(deletedVehicle)
+    res.status(200).json(deletedVehicle);
   } catch (error: any) {
     res.status(500).send(error.message);
   }
@@ -50,8 +60,8 @@ export default async function handler(
       return handleGet(req, res);
     case "PUT":
       return handlePut(req, res);
-    case "DELETE": 
-        return handleDelete(req, res);
+    case "DELETE":
+      return handleDelete(req, res);
     default:
       return res.status(405).json("error");
   }
