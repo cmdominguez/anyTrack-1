@@ -1,13 +1,13 @@
 import { Prisma } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
-import { prisma } from '../../../db';
+import { prisma } from "../../../db";
 
 const handleGet = async (req: NextApiRequest, res: NextApiResponse) => {
   const where: Prisma.VehicleWhereInput = req.query.search
     ? {
         patent: {
           contains: String(req.query.search),
-          mode: 'insensitive',
+          mode: "insensitive",
         },
       }
     : {};
@@ -20,9 +20,9 @@ const handleGet = async (req: NextApiRequest, res: NextApiResponse) => {
         select: {
           id: true,
           name: true,
-        }
+        },
       },
-    }
+    },
   });
   res.status(200).json(vehicles);
 };
@@ -39,7 +39,22 @@ const handlePost = async (req: NextApiRequest, res: NextApiResponse) => {
       },
     });
     if (newVehicle) {
-      res.status(200).json(newVehicle);
+      const vehicle = await prisma.vehicle.findUnique({
+        where: {
+          id: newVehicle.id,
+        },
+        select: {
+          id: true,
+          patent: true,
+          type: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+        },
+      });
+      res.status(200).json(vehicle);
     } else {
       res.status(500).json("Error to create driver");
     }

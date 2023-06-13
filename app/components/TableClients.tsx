@@ -27,12 +27,6 @@ export default function TableClients() {
     <table className="min-w-full bg-secondary rounded-lg">
       <thead>
         <tr className="w-full h-16 border-gray-300 border-b py-8">
-          {/* <th className="pl-8 text-gray-600 font-normal pr-6 text-left text-sm tracking-normal leading-4">
-            <input
-              type="checkbox"
-              className="cursor-pointer relative w-5 h-5 border rounded border-gray-400 bg-secondary outline-none"
-            />
-          </th> */}
           <th className="text-slate-900 font-bold text-left text-sm tracking-normal leading-4 pl-4">
             Nombre
           </th>
@@ -59,12 +53,6 @@ export default function TableClients() {
                 index !== clients.length - 1 ? "border-b" : "border-none"
               }`}
             >
-              {/* <td className="pl-8 pr-6 text-left whitespace-no-wrap text-sm text-gray-800 tracking-normal leading-4">
-                <input
-                  type="checkbox"
-                  className="cursor-pointer relative w-5 h-5 border rounded border-gray-400 bg-secondary outline-none"
-                />
-              </td> */}
               <td className="text-sm pr-6 whitespace-no-wrap text-gray-800 tracking-normal leading-4 pl-4">
                 {item.name}
               </td>
@@ -79,15 +67,15 @@ export default function TableClients() {
               </td>
               <td className="text-sm pr-6 whitespace-no-wrap text-gray-800 tracking-normal leading-4">
                 <div className="flex gap-3">
-                  <RiDeleteBin6Line
-                    size={20}
-                    onClick={() => handleDeleteClient(item.id!)}
-                    className="text-red-600"
-                  />
                   <AiOutlineEdit
                     size={20}
                     onClick={() => handleEditClient(item.id!)}
-                    className="text-sky-500"
+                    className="text-sky-500 cursor-pointer"
+                  />
+                  <RiDeleteBin6Line
+                    size={20}
+                    onClick={() => handleDeleteClient(item.id!)}
+                    className="text-red-600 cursor-pointer"
                   />
                 </div>
               </td>

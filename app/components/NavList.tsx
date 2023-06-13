@@ -1,24 +1,32 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { RxDashboard } from "react-icons/rx";
-import { BiHomeAlt } from "react-icons/bi";
+import { BiHomeAlt, BiCar } from "react-icons/bi";
 import { BsCreditCard } from "react-icons/bs";
 import { FiTruck } from "react-icons/fi";
 import { RxCross1 } from "react-icons/rx";
 import { AiOutlineMenu } from "react-icons/ai";
 import { BsBoxFill, BsPerson } from "react-icons/bs";
+import { usePathname } from "next/navigation";
 
 const links = [
   { label: "Dashboard", route: "/", icon: <RxDashboard size={22} /> },
   { label: "Delivery info", route: "/delivery", icon: <BiHomeAlt size={22} /> },
   { label: "Payment", route: "/payment", icon: <BsCreditCard size={22} /> },
   { label: "Clientes", route: "/clients", icon: <BsPerson size={22} /> },
+  { label: "Vehículos", route: "/vehicles", icon: <BiCar size={22} /> },
 ];
 
 export default function NavList() {
-  const [routeSelected, setRouteSelected] = useState(0);
+  const [routeSelected, setRouteSelected] = useState("");
   const [showMenu, setShowMenu] = useState(false);
+  const pathname = usePathname();
+
+  useEffect(() => {
+    const url = pathname;
+    setRouteSelected(url ? url : "/");
+  }, [pathname]);
 
   return (
     <>
@@ -37,14 +45,16 @@ export default function NavList() {
                 <Link
                   href={item.route}
                   key={item.route}
-                  onClick={() => setRouteSelected(index)}
+                  onClick={() => setRouteSelected(item.route)}
                   className={`flex mb-3 pl-2 py-2 mx-3 mt-1 rounded-md ${
-                    index === routeSelected ? "bg-slate-200" : "bg-slate-50"
+                    item.route === routeSelected
+                      ? "bg-slate-200"
+                      : "bg-slate-50"
                   }`}
                 >
                   <span
                     className={`${
-                      index === routeSelected
+                      item.route === routeSelected
                         ? "text-slate-900"
                         : "text-slate-400"
                     } font-bold flex gap-4`}
@@ -93,14 +103,16 @@ export default function NavList() {
                 <Link
                   href={item.route}
                   key={item.route}
-                  onClick={() => setRouteSelected(index)}
+                  onClick={() => setRouteSelected(item.route)}
                   className={`flex mb-6 pl-2 py-2 mx-3 mt-1 rounded-md ${
-                    index === routeSelected ? "bg-slate-200" : "bg-slate-50"
+                    item.route === routeSelected
+                      ? "bg-slate-200"
+                      : "bg-slate-50"
                   }`}
                 >
                   <span
                     className={`${
-                      index === routeSelected
+                      item.route === routeSelected
                         ? "text-slate-900"
                         : "text-slate-400"
                     } font-bold flex gap-4`}

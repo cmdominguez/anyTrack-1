@@ -1,43 +1,31 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import TableClients from "../components/TableClients";
-import { IoAddCircleSharp } from "react-icons/io5";
-import ModalFormClient from "../components/ModalFormClient";
-import { useContextClients } from "../context/ContextClients";
-import { useClientUsersStore } from "@/store/clientUsersStore";
-import Loading from "../components/Loading";
+import { useEffect } from "react";
 import { CiSearch } from "react-icons/ci";
+import { IoAddCircleSharp } from "react-icons/io5";
+import TableVehicles from "../components/TableVehicles";
+import { useContextVehicles } from "../context/ContextVehicles";
+import ModalFormVehicles from "../components/ModalFormVehicles";
+import { useVehiclesStore } from "@/store/vehiclesStore";
+import Loading from "../components/Loading";
 
-export default function Clients() {
-  const [searchValue, setSearchValue] = useState("");
-  const { openModal } = useContextClients();
-  const { isLoading, getClients } = useClientUsersStore();
+export default function Vehicles() {
+  const { openModal } = useContextVehicles();
+  const { getVehicles, isLoading } = useVehiclesStore();
 
   useEffect(() => {
-    const timeout = setTimeout(() => {
-      getClients(searchValue);
-    }, 500);
-
-    return () => {
-      clearTimeout(timeout);
-    };
-  }, [searchValue]);
-
-  const handleSearchClient = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target;
-    setSearchValue(value);
-  };
+    getVehicles();
+  }, []);
 
   return (
     <div className="w-full overflow-hidden">
-      <ModalFormClient />
+      <ModalFormVehicles />
       <div className="mt-3 mb-6 relative px-8 lg:px-2">
         <input
-          placeholder="Buscar por nombre del cliente"
+          placeholder="Buscar por número de patente"
           className="text-gray-600 bg-secondary focus:outline-none focus:border focus:border-blue-500 font-normal lg:w-[35%] w-full h-10 flex items-center pl-[40px] text-sm border-gray-300 rounded border"
           type="text"
-          value={searchValue}
-          onChange={handleSearchClient}
+          //   value={searchValue}
+          //   onChange={handleSearchClient}
         />
         <CiSearch
           className="absolute text-gray-600 top-[11px] lg:left-5 left-11"
@@ -55,15 +43,15 @@ export default function Clients() {
           <IoAddCircleSharp size={80} className="text-blue-500" />
         </div>
         <p className="font-bold lg:text-2xl text-lg tracking-[0.4px] text-slate-800">
-          Lista de Clientes
+          Lista de Vehículos
         </p>
       </div>
       {isLoading ? (
         <Loading />
       ) : (
         <div className="pt-6 pb-20 px-8 lg:px-2 rounded-lg">
-          <div className="w-full overflow-x-scroll md:overflow-x-hidden rounded-lg shadow-lg">
-            <TableClients />
+          <div className="lg:w-[60%] w-full overflow-x-scroll md:overflow-x-hidden rounded-lg shadow-lg">
+            <TableVehicles />
           </div>
         </div>
       )}
