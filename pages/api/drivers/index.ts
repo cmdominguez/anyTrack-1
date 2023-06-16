@@ -1,9 +1,8 @@
 import { Prisma } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
-import { prisma } from '../../../db';
+import { prisma } from "../../../db";
 
 const handleGet = async (req: NextApiRequest, res: NextApiResponse) => {
-
   const where: Prisma.DriverWhereInput = req.query.search
     ? {
         OR: [
@@ -15,7 +14,7 @@ const handleGet = async (req: NextApiRequest, res: NextApiResponse) => {
           {
             email: {
               contains: String(req.query.search),
-              mode: 'insensitive',
+              mode: "insensitive",
             },
           },
         ],
@@ -28,13 +27,14 @@ const handleGet = async (req: NextApiRequest, res: NextApiResponse) => {
 };
 
 const handlePost = async (req: NextApiRequest, res: NextApiResponse) => {
-  const { email, name } = req.body as Prisma.DriverUncheckedCreateInput;
+  const { email, name, dni } = req.body as Prisma.DriverUncheckedCreateInput;
 
   try {
     const newDriver = await prisma.driver.create({
       data: {
         email,
         name,
+        dni,
       },
     });
     if (newDriver) {

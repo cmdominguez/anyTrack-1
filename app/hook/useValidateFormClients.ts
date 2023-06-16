@@ -9,19 +9,19 @@ export const useValidateFormClients = (values: Client) => {
   };
 
   if (!values.address) {
-    errors.address = "Este campo es requerido";
+    errors.address = "La dirección del cliente es requerido";
   }
 
   if (!values.dni) {
-    errors.dni = "Este campo es requerido";
+    errors.dni = "El DNI del cliente es requerido";
   }
 
   if (!values.name) {
-    errors.name = "Este campo es requerido";
+    errors.name = "El nombre del cliente es requerido";
   }
 
   if (!values.phone) {
-    errors.phone = "Este campo es requerido";
+    errors.phone = "El teléfono del cliente es requerido";
   }
 
   return errors;
