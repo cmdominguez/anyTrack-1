@@ -7,7 +7,7 @@ export const useValidateFormVehicles = (values: ValueInput) => {
   };
 
   if (!values.patent) {
-    errors.patent = "Este campo es requerido";
+    errors.patent = "El número de la patente es requerido";
   }
 
   if (!values.vehicleTypeId) {

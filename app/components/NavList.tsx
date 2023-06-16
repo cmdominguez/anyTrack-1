@@ -16,6 +16,7 @@ const links = [
   { label: "Payment", route: "/payment", icon: <BsCreditCard size={22} /> },
   { label: "Clientes", route: "/clients", icon: <BsPerson size={22} /> },
   { label: "Vehículos", route: "/vehicles", icon: <BiCar size={22} /> },
+  { label: "Choferes", route: "/drivers", icon: <BsPerson size={22} /> },
 ];
 
 export default function NavList() {
