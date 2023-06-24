@@ -4,6 +4,10 @@ import { useShippingStore } from "../../store/shippingStore";
 import { useValidate } from "../hook/useValidate";
 import InputCustom from "./InputCustom";
 import LayoutFormModal from "./LayoutFormModal";
+import SearchDriverBar from "./formShipping/SearchDriverBar";
+import SearchSentClientBar from "./formShipping/SearchSentClientBar";
+import SearchReceivedClientBar from "./formShipping/SearchReceivedClientBar";
+import SearchVehicleBar from "./formShipping/SearchVehicleBar";
 
 type Prop = {
   closeModal: () => void;
@@ -13,12 +17,14 @@ export default function ModalForm({ closeModal }: Prop) {
   const { addShipping } = useShippingStore();
   const [sent, setSent] = useState(false);
   const [valueInput, setValueInput] = useState({
-    nombrechofer: "",
-    patente: "",
-    vahiculo: "",
+    driverName: "",
+    sentClient: "",
+    receivedClient: "",
+    patent: "",
     origen: "",
     destino: "",
   });
+
   const errors = useValidate(valueInput);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -30,9 +36,10 @@ export default function ModalForm({ closeModal }: Prop) {
     setSent(true);
 
     if (
-      !valueInput.nombrechofer ||
-      !valueInput.patente ||
-      !valueInput.vahiculo ||
+      !valueInput.driverName ||
+      !valueInput.sentClient ||
+      !valueInput.receivedClient ||
+      !valueInput.patent ||
       !valueInput.origen ||
       !valueInput.destino
     ) {
@@ -40,7 +47,8 @@ export default function ModalForm({ closeModal }: Prop) {
     }
 
     closeModal();
-    addShipping(valueInput);
+    //addShipping(valueInput);
+    console.log(valueInput);
   };
 
   return (
@@ -48,32 +56,25 @@ export default function ModalForm({ closeModal }: Prop) {
       <h1 className="text-slate-800 font-lg font-bold tracking-[0.4px] leading-tight mb-4">
         Completar Información
       </h1>
-      <InputCustom
-        label="Nombre del chofer"
-        placeholder="James Doe"
+      <SearchDriverBar
+        valueInput={valueInput}
+        setValueInput={setValueInput}
         sent={sent}
-        errors={errors.nombrechofer}
-        handleChange={handleChange}
-        valueInput={valueInput.nombrechofer}
-        name="nombrechofer"
       />
-      <InputCustom
-        label="Patente del vehículo"
-        placeholder="875FDR"
+      <SearchSentClientBar
+        valueInput={valueInput}
+        setValueInput={setValueInput}
         sent={sent}
-        errors={errors.patente}
-        handleChange={handleChange}
-        valueInput={valueInput.patente}
-        name="patente"
       />
-      <InputCustom
-        label="Modelo del vehículo"
-        placeholder="Toyota Corolla"
+      <SearchReceivedClientBar
+        valueInput={valueInput}
+        setValueInput={setValueInput}
         sent={sent}
-        errors={errors.vahiculo}
-        handleChange={handleChange}
-        valueInput={valueInput.vahiculo}
-        name="vahiculo"
+      />
+      <SearchVehicleBar
+        valueInput={valueInput}
+        setValueInput={setValueInput}
+        sent={sent}
       />
       <InputCustom
         label="Origen"

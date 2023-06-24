@@ -1,7 +1,8 @@
 export interface Shipping {
-  nombrechofer: string;
-  patente: string;
-  vahiculo: string;
+  driverName: string;
+  sentClient: string;
+  receivedClient: string;
+  patent: string;
   origen: string;
   destino: string;
 }
