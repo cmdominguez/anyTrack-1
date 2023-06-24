@@ -20,7 +20,7 @@ export default function CardDashboard({ onPress, item }: Prop) {
           <div className="flex items-center gap-2">
             <BsCarFrontFill size={13} className="text-slate-800/60" />
             <span className="font-bold text-[13px] text-slate-800/60">
-              {item.patente}
+              {item.patent}
             </span>
           </div>
           <AiOutlineCalendar className="text-slate-800/60" size={13} />

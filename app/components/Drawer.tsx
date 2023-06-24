@@ -8,7 +8,6 @@ import { TbPointFilled } from "react-icons/tb";
 import TagsInTravel from "./TagsInTravel";
 import dynamic from "next/dynamic";
 
-
 type Prop = {
   showDrawer: boolean;
   toggleDrawer: () => void;
@@ -18,10 +17,14 @@ type Prop = {
 export default function Drawer({ showDrawer, toggleDrawer, item }: Prop) {
   if (!showDrawer) return null;
 
-  const MapWithNoSSR = React.useMemo(() => dynamic(() => import('./MapDrawer'), {
-    loading: () => <p>A map is loading</p>,
-    ssr: false,
-  }), []);
+  const MapWithNoSSR = React.useMemo(
+    () =>
+      dynamic(() => import("./MapDrawer"), {
+        loading: () => <p>A map is loading</p>,
+        ssr: false,
+      }),
+    []
+  );
 
   return (
     <div
@@ -41,7 +44,7 @@ export default function Drawer({ showDrawer, toggleDrawer, item }: Prop) {
         <div className="flex items-center gap-3">
           <BsCarFrontFill size={13} className="text-slate-800/60" />
           <span className="font-bold text-[13px] text-slate-800/60">
-            {item.patente}
+            {item.patent}
           </span>
         </div>
         <div className="bg-blue-500/40 w-6 h-6 flex items-center justify-center rounded-md">
@@ -52,7 +55,7 @@ export default function Drawer({ showDrawer, toggleDrawer, item }: Prop) {
         <TagsInTravel title="En viaje" />
         <div className="mt-4">
           <p className="font-bold tracking-[0.4px] text-slate-800 capitalize">
-            {item.vahiculo}
+            Toyota
           </p>
         </div>
       </div>
@@ -66,7 +69,7 @@ export default function Drawer({ showDrawer, toggleDrawer, item }: Prop) {
             className="w-14 h-14 rounded-full"
           />
           <h2 className="font-bold tracking-[0.4px] text-slate-800 truncate capitalize">
-            {item.nombrechofer}
+            {item.driverName}
           </h2>
         </div>
         <div className="flex gap-3">
