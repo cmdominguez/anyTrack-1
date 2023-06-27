@@ -61,12 +61,15 @@ export default function SearchDriverBar({
       <label className="text-slate-800 text-[13px] font-bold leading-tight tracking-normal">
         Nombre del chofer
       </label>
-      <div className="relative">
+      <div className="relative" >
         <input
           className="mb-5 mt-2 text-gray-600 bg-primary focus:outline-none focus:border focus:border-blue-500 font-normal w-full h-10 flex items-center pl-3 text-sm border-gray-300 rounded border"
           placeholder="Nombre del chofer"
           onChange={handleChange}
           onClick={handleDropdownToggle}
+          onBlur={() => {
+            setIsOpenDropdown(false);
+          }}
           value={valueInput.driverName}
         />
         {sent && errors.driverName ? (
@@ -76,15 +79,15 @@ export default function SearchDriverBar({
         ) : null}
       </div>
       {isOpenDropdown && (
-        <div className="absolute z-10 bg-gray-100 left-0 top-20 right-0 rounded-md h-[90px] overflow-y-auto shadow-lg">
+        <div className="absolute z-10 bg-gray-100 left-0 top-20 right-0 rounded-md max-h-[90px] overflow-y-auto shadow-lg">
           {drivers.map((item, index) => (
             <div
               key={index}
-              onClick={() => handleSelectedDriver(item.name)}
+              onMouseDown={() => handleSelectedDriver(item.name)}
               className="p-3 hover:bg-blue-100"
             >
               <p className="text-[14px] hover:text-slate-900 hover:font-bold">
-                {item.name}
+                {item.name} | {item.email} | {item.dni}
               </p>
             </div>
           ))}

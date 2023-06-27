@@ -1,31 +1,30 @@
 import { Prisma } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
-import { prisma } from '../../../db';
+import { prisma } from "../../../db";
 
-const handleGet = async (req: NextApiRequest, res: NextApiResponse) => {
-  const where: Prisma.ShippingWhereInput = req.query.status
-    ? {
-        shippingStatusId: {
-          equals: Number(req.query.status),
-        },
-      }
-    : {};
+const selectShippings = async (where: Prisma.ShippingWhereInput) => {
   const shippings = await prisma.shipping.findMany({
     where,
     select: {
+      origin: true,
+      destination: true,
       shipload: true,
+      createdAt: true,
+      updatedAt: true,
       status: {
         select: {
           name: true,
-        }
+        },
       },
       driver: {
         select: {
+          id: true,
           name: true,
         },
       },
       vehicle: {
         select: {
+          id: true,
           patent: true,
           position: true,
           type: {
@@ -37,6 +36,7 @@ const handleGet = async (req: NextApiRequest, res: NextApiResponse) => {
       },
       receiver: {
         select: {
+          id: true,
           name: true,
           phone: true,
           address: true,
@@ -44,6 +44,7 @@ const handleGet = async (req: NextApiRequest, res: NextApiResponse) => {
       },
       sender: {
         select: {
+          id: true,
           name: true,
           phone: true,
           address: true,
@@ -51,6 +52,21 @@ const handleGet = async (req: NextApiRequest, res: NextApiResponse) => {
       },
     },
   });
+
+  return shippings;
+};
+
+const handleGet = async (req: NextApiRequest, res: NextApiResponse) => {
+  const where: Prisma.ShippingWhereInput = req.query.status
+    ? {
+        shippingStatusId: {
+          equals: Number(req.query.status),
+        },
+      }
+    : {};
+
+  const shippings = await selectShippings(where);
+
   res.status(200).json(shippings);
 };
 
@@ -79,7 +95,10 @@ const handlePost = async (req: NextApiRequest, res: NextApiResponse) => {
       },
     });
     if ((await newShipping).id) {
-      res.status(200).json(newShipping);
+      const shipping = await selectShippings({
+        id: (await newShipping).id,
+      });
+      res.status(200).json(shipping);
     } else {
       res.status(500).json("Error to create shipping");
     }
