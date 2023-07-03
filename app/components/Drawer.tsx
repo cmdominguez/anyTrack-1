@@ -1,8 +1,7 @@
 import React from "react";
-import { Shipping } from "../interface/interfaceShipping";
-import { BsCarFrontFill } from "react-icons/bs";
-import { AiOutlineCalendar } from "react-icons/ai";
-import { BsTelephone, BsChatLeft } from "react-icons/bs";
+import { ShippingResponse } from "../interface/interfaceShipping";
+import { BsTelephone, BsChatLeft, BsCarFrontFill } from "react-icons/bs";
+import { FaTruck, FaMotorcycle } from "react-icons/fa";
 import { TbPointFilled } from "react-icons/tb";
 //componentes
 import TagsInTravel from "./TagsInTravel";
@@ -11,20 +10,20 @@ import dynamic from "next/dynamic";
 type Prop = {
   showDrawer: boolean;
   toggleDrawer: () => void;
-  item: Shipping;
+  item: ShippingResponse;
 };
 
 export default function Drawer({ showDrawer, toggleDrawer, item }: Prop) {
   if (!showDrawer) return null;
 
-  const MapWithNoSSR = React.useMemo(
-    () =>
-      dynamic(() => import("./MapDrawer"), {
-        loading: () => <p>A map is loading</p>,
-        ssr: false,
-      }),
-    []
-  );
+  // const MapWithNoSSR = React.useMemo(
+  //   () =>
+  //     dynamic(() => import("./MapDrawer"), {
+  //       loading: () => <p>A map is loading</p>,
+  //       ssr: false,
+  //     }),
+  //   []
+  // );
 
   return (
     <div
@@ -42,14 +41,20 @@ export default function Drawer({ showDrawer, toggleDrawer, item }: Prop) {
       </div>
       <div className="flex items-center px-4 justify-between mb-4">
         <div className="flex items-center gap-3">
-          <BsCarFrontFill size={13} className="text-slate-800/60" />
+          {item.vehicle.type.name === "Automovil" ? (
+            <BsCarFrontFill size={13} className="text-slate-800/60" />
+          ) : item.vehicle.type.name === "Camion" ? (
+            <FaTruck size={13} className="text-slate-800/60" />
+          ) : (
+            <FaMotorcycle size={13} className="text-slate-800/60" />
+          )}
           <span className="font-bold text-[13px] text-slate-800/60">
-            {item.patent}
+            {item.vehicle.type.name}
           </span>
         </div>
-        <div className="bg-blue-500/40 w-6 h-6 flex items-center justify-center rounded-md">
-          <AiOutlineCalendar className="text-blue-800" size={14} />
-        </div>
+        <span className="font-bold text-[13px] text-slate-800/60">
+          {item.vehicle.patent}
+        </span>
       </div>
       <div className="pl-4 mb-4">
         <TagsInTravel title="En viaje" />
@@ -59,9 +64,7 @@ export default function Drawer({ showDrawer, toggleDrawer, item }: Prop) {
           </p>
         </div>
       </div>
-      <div>
-        <MapWithNoSSR />
-      </div>
+      <div>{/* <MapWithNoSSR /> */}</div>
       <div className="px-4 mt-4 flex justify-between py-1">
         <div className="flex gap-3">
           <img
@@ -69,7 +72,7 @@ export default function Drawer({ showDrawer, toggleDrawer, item }: Prop) {
             className="w-14 h-14 rounded-full"
           />
           <h2 className="font-bold tracking-[0.4px] text-slate-800 truncate capitalize">
-            {item.driverName}
+            {/* {item.driverName} */}
           </h2>
         </div>
         <div className="flex gap-3">

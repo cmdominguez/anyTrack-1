@@ -11,7 +11,7 @@ import { BsBoxFill, BsPerson } from "react-icons/bs";
 import { usePathname } from "next/navigation";
 
 const links = [
-  { label: "Dashboard", route: "/", icon: <RxDashboard size={22} /> },
+  { label: "Tablero", route: "/", icon: <RxDashboard size={22} /> },
   { label: "Delivery info", route: "/delivery", icon: <BiHomeAlt size={22} /> },
   { label: "Payment", route: "/payment", icon: <BsCreditCard size={22} /> },
   { label: "Clientes", route: "/clients", icon: <BsPerson size={22} /> },

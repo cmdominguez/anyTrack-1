@@ -8,6 +8,8 @@ import SearchDriverBar from "./formShipping/SearchDriverBar";
 import SearchSentClientBar from "./formShipping/SearchSentClientBar";
 import SearchReceivedClientBar from "./formShipping/SearchReceivedClientBar";
 import SearchVehicleBar from "./formShipping/SearchVehicleBar";
+import { Shipping } from "../interface/interfaceShipping";
+import ShiploadTextArea from "./formShipping/ShiploadTextArea";
 
 type Prop = {
   closeModal: () => void;
@@ -23,6 +25,15 @@ export default function ModalForm({ closeModal }: Prop) {
     patent: "",
     origen: "",
     destino: "",
+  });
+  const [shipping, setShipping] = useState<Shipping>({
+    shipload: "",
+    driverId: null,
+    receiverId: null,
+    senderId: null,
+    vehicleId: null,
+    origin: {},
+    destination: {},
   });
 
   const errors = useValidate(valueInput);
@@ -47,34 +58,41 @@ export default function ModalForm({ closeModal }: Prop) {
     }
 
     closeModal();
-    //addShipping(valueInput);
-    console.log(valueInput);
+    addShipping(shipping);
   };
 
   return (
     <LayoutFormModal closeModal={closeModal} handleSubmit={handleSubmit}>
       <h1 className="text-slate-800 font-lg font-bold tracking-[0.4px] leading-tight mb-4">
-        Completar Información
+        Crear envío
       </h1>
       <SearchDriverBar
         valueInput={valueInput}
         setValueInput={setValueInput}
         sent={sent}
+        shipping={shipping}
+        setShipping={setShipping}
       />
       <SearchSentClientBar
         valueInput={valueInput}
         setValueInput={setValueInput}
         sent={sent}
+        shipping={shipping}
+        setShipping={setShipping}
       />
       <SearchReceivedClientBar
         valueInput={valueInput}
         setValueInput={setValueInput}
         sent={sent}
+        shipping={shipping}
+        setShipping={setShipping}
       />
       <SearchVehicleBar
         valueInput={valueInput}
         setValueInput={setValueInput}
         sent={sent}
+        shipping={shipping}
+        setShipping={setShipping}
       />
       <InputCustom
         label="Origen"
@@ -94,6 +112,7 @@ export default function ModalForm({ closeModal }: Prop) {
         valueInput={valueInput.destino}
         name="destino"
       />
+      <ShiploadTextArea shipping={shipping} setShipping={setShipping} />
     </LayoutFormModal>
   );
 }

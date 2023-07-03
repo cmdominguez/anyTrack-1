@@ -1,36 +1,63 @@
 import { create } from "zustand";
-import { Shipping } from "../app/interface/interfaceShipping";
+import { Shipping, ShippingResponse } from "../app/interface/interfaceShipping";
 import { immer } from "zustand/middleware/immer";
 import axios from "axios";
 
 type State = {
   shippings: Shipping[];
+  shippingResponse: ShippingResponse[];
+  isLoading: boolean;
+  error: boolean;
 };
 
 type Actions = {
   addShipping: (value: Shipping) => void;
   getShippings: () => void;
+  toggleError: () => void;
 };
 
 export const useShippingStore = create(
   immer<State & Actions>((set) => ({
     shippings: [],
+    shippingResponse: [],
+    isLoading: false,
+    error: false,
 
     getShippings: async () => {
-      const { data, status } = await axios.get("/api/shippings");
+      try {
+        set({ isLoading: true });
 
-      if (status === 200) {
-        set((state) => {
-          state.shippings = data;
-        });
+        const { data, status } = await axios.get("/api/shippings");
+
+        if (status === 200) {
+          set((state) => {
+            state.shippingResponse = data;
+          });
+        }
+      } catch (error) {
+        console.log(error);
+      } finally {
+        set({ isLoading: false });
       }
     },
 
     addShipping: async (value: Shipping) => {
-      await axios.post("/api/shippings", value);
-      set((state) => {
-        state.shippings.push(value);
-      });
+      try {
+        set({ isLoading: true });
+        set({ error: false });
+
+        await axios.post("/api/shippings", value);
+        set((state) => {
+          state.shippings.push(value);
+        });
+      } catch (error) {
+        console.log(error);
+        set({ error: true });
+      } finally {
+        set({ isLoading: false });
+      }
     },
+
+    toggleError: () => set((state) => ({ error: !state.error })),
   }))
 );

@@ -1,6 +1,6 @@
-import { Shipping } from "../interface/interfaceShipping";
+import { ValueInputShipping } from "../interface/interfaceShipping";
 
-export const useValidate = (values: Shipping) => {
+export const useValidate = (values: ValueInputShipping) => {
   const errors = {
     driverName: "",
     sentClient: "",

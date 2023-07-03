@@ -1,19 +1,26 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import axios from "axios";
 import { useValidate } from "@/app/hook/useValidate";
-import { Shipping } from "@/app/interface/interfaceShipping";
+import {
+  Shipping,
+  ValueInputShipping,
+} from "@/app/interface/interfaceShipping";
 import { VehicleInterface } from "@/app/interface/interfaceVehicles";
 
 type Prop = {
-  valueInput: Shipping;
-  setValueInput: React.Dispatch<React.SetStateAction<Shipping>>;
+  valueInput: ValueInputShipping;
+  setValueInput: React.Dispatch<React.SetStateAction<ValueInputShipping>>;
   sent: boolean;
+  shipping: Shipping;
+  setShipping: React.Dispatch<React.SetStateAction<Shipping>>;
 };
 
 export default function SearchVehicleBar({
   sent,
   setValueInput,
   valueInput,
+  shipping,
+  setShipping,
 }: Prop) {
   const [isOpenDropdown, setIsOpenDropdown] = useState(false);
   const [vehicles, setVehicles] = useState<VehicleInterface[]>([]);
@@ -50,8 +57,9 @@ export default function SearchVehicleBar({
     setIsOpenDropdown(!isOpenDropdown);
   };
 
-  const handleSelectedPatentVehicle = (patent: string) => {
+  const handleSelectedPatentVehicle = (patent: string, vehicleId: number) => {
     setValueInput({ ...valueInput, patent: patent });
+    setShipping({ ...shipping, vehicleId: vehicleId });
     setIsOpenDropdown(false);
   };
 
@@ -66,6 +74,9 @@ export default function SearchVehicleBar({
           placeholder="Buscar por patente"
           onChange={handleChange}
           onClick={handleDropdownToggle}
+          onBlur={() => {
+            setIsOpenDropdown(false);
+          }}
           value={valueInput.patent}
         />
         {sent && errors.patent ? (
@@ -75,11 +86,13 @@ export default function SearchVehicleBar({
         ) : null}
       </div>
       {isOpenDropdown && (
-        <div className="absolute z-10 bg-gray-100 left-0 top-20 right-0 rounded-md h-[90px] overflow-y-auto shadow-lg">
+        <div className="absolute z-10 bg-gray-100 left-0 top-20 right-0 rounded-md max-h-[90px] overflow-y-auto shadow-lg">
           {vehicles.map((item, index) => (
             <div
               key={index}
-              onClick={() => handleSelectedPatentVehicle(item.patent)}
+              onMouseDown={() =>
+                handleSelectedPatentVehicle(item.patent, Number(item.id))
+              }
               className="p-3 hover:bg-blue-100"
             >
               <p className="text-[14px] hover:text-slate-900 hover:font-bold">

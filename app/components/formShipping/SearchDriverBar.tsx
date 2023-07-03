@@ -1,19 +1,26 @@
 import { ChangeEvent, useState, useEffect } from "react";
 import axios from "axios";
 import { useValidate } from "@/app/hook/useValidate";
-import { Shipping } from "@/app/interface/interfaceShipping";
+import {
+  Shipping,
+  ValueInputShipping,
+} from "@/app/interface/interfaceShipping";
 import { Driver } from "@/app/interface/interfaceDrivers";
 
 type Prop = {
-  valueInput: Shipping;
-  setValueInput: React.Dispatch<React.SetStateAction<Shipping>>;
+  valueInput: ValueInputShipping;
+  setValueInput: React.Dispatch<React.SetStateAction<ValueInputShipping>>;
   sent: boolean;
+  shipping: Shipping;
+  setShipping: React.Dispatch<React.SetStateAction<Shipping>>;
 };
 
 export default function SearchDriverBar({
   valueInput,
   setValueInput,
   sent,
+  shipping,
+  setShipping,
 }: Prop) {
   const [isOpenDropdown, setIsOpenDropdown] = useState(false);
   const [drivers, setDrivers] = useState<Driver[]>([]);
@@ -51,8 +58,9 @@ export default function SearchDriverBar({
     setIsOpenDropdown(!isOpenDropdown);
   };
 
-  const handleSelectedDriver = (driverName: string) => {
+  const handleSelectedDriver = (driverName: string, driverId: number) => {
     setValueInput({ ...valueInput, driverName: driverName });
+    setShipping({ ...shipping, driverId: driverId });
     setIsOpenDropdown(false);
   };
 
@@ -61,7 +69,7 @@ export default function SearchDriverBar({
       <label className="text-slate-800 text-[13px] font-bold leading-tight tracking-normal">
         Nombre del chofer
       </label>
-      <div className="relative" >
+      <div className="relative">
         <input
           className="mb-5 mt-2 text-gray-600 bg-primary focus:outline-none focus:border focus:border-blue-500 font-normal w-full h-10 flex items-center pl-3 text-sm border-gray-300 rounded border"
           placeholder="Nombre del chofer"
@@ -83,7 +91,9 @@ export default function SearchDriverBar({
           {drivers.map((item, index) => (
             <div
               key={index}
-              onMouseDown={() => handleSelectedDriver(item.name)}
+              onMouseDown={() =>
+                handleSelectedDriver(item.name, Number(item.id))
+              }
               className="p-3 hover:bg-blue-100"
             >
               <p className="text-[14px] hover:text-slate-900 hover:font-bold">
