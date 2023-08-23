@@ -18,7 +18,7 @@ type Action = {
 
 export const useDriversStore = create<State & Action>((set) => ({
   drivers: [],
-  isLoading: false,
+  isLoading: true,
   error: false,
 
   getDrivers: async (value: string) => {

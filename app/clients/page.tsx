@@ -1,17 +1,23 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import TableClients from "../components/TableClients";
-import { IoAddCircleSharp } from "react-icons/io5";
-import ModalFormClient from "../components/ModalFormClient";
 import { useContextClients } from "../context/ContextClients";
-import { useClientUsersStore } from "@/store/clientUsersStore";
+import { useClientsStore } from "@/store/clientsStore";
+import { Button } from "@nextui-org/button";
+import { Input } from "@nextui-org/input";
 import Loading from "../components/Loading";
-import { CiSearch } from "react-icons/ci";
+import TableClients from "../components/TableClients";
+import DropdownAvatar from "../components/DropdownAvatar";
+import { SearchIcon } from "../components/ui/SearchIcon";
+import { PlusIcon } from "../components/ui/PlusIcon";
+import DrawerFormClient from "../components/clients/DrawerFormClient";
+import EmptyData from "../components/EmptyData";
+import MenuOpen from "../components/MenuOpen";
+import DarkMode from "../components/DarkMode";
 
 export default function Clients() {
   const [searchValue, setSearchValue] = useState("");
-  const { openModal } = useContextClients();
-  const { isLoading, getClients } = useClientUsersStore();
+  const { openFormClient } = useContextClients();
+  const { isLoading, getClients, clients } = useClientsStore();
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -29,44 +35,49 @@ export default function Clients() {
   };
 
   return (
-    <div className="w-full overflow-hidden">
-      <ModalFormClient />
-      <div className="mt-3 mb-6 relative px-8 lg:px-2">
-        <input
-          placeholder="Buscar por nombre del cliente"
-          className="text-gray-600 bg-secondary focus:outline-none focus:border focus:border-blue-500 font-normal lg:w-[35%] w-full h-10 flex items-center pl-[40px] text-sm border-gray-300 rounded border"
-          type="text"
-          value={searchValue}
-          onChange={handleSearchClient}
-        />
-        <CiSearch
-          className="absolute text-gray-600 top-[11px] lg:left-5 left-11"
-          size={18}
-        />
-      </div>
-      <div className="mx-8 lg:mx-2">
-        <div className="border-t-[1px] border-gray-600/10 mb-3" />
-      </div>
-      <div className="px-8 lg:px-2 pt-5">
-        <div
-          onClick={() => openModal()}
-          className="bg-secondary rounded-lg border-b-4 border-blue-500 flex items-center justify-center cursor-pointer shadow-lg h-36 lg:w-[20%] md:w-[35%] w-full mb-5"
-        >
-          <IoAddCircleSharp size={80} className="text-blue-500" />
+    <section className="w-full overflow-hidden px-5">
+      <DrawerFormClient />
+      <div className="flex pt-14 md:pt-0 lg:pt-0 md:flex-row flex-col-reverse gap-y-4 justify-between relative mt-4 mb-5">
+        <div className="flex-1">
+          <MenuOpen />
+          <Input
+            isClearable
+            className="md:w-3/5 lg:w-2/5 w-full sm:max-w-[100%] md:ml-7 lg:ml-0"
+            placeholder="Buscar un cliente..."
+            startContent={<SearchIcon />}
+            type="text"
+            value={searchValue}
+            onChange={handleSearchClient}
+            onClear={() => setSearchValue("")}
+          />
         </div>
-        <p className="font-bold lg:text-2xl text-lg tracking-[0.4px] text-slate-800">
-          Lista de Clientes
-        </p>
+        <div className="flex flex-row items-center gap-4">
+          <DarkMode />
+          <Button
+            onPress={() => openFormClient()}
+            className="bg-third text-primary flex-1"
+            endContent={<PlusIcon />}
+          >
+            Agregar un Cliente
+          </Button>
+          <DropdownAvatar />
+        </div>
       </div>
+
       {isLoading ? (
         <Loading />
       ) : (
-        <div className="pt-6 pb-20 px-8 lg:px-2 rounded-lg">
-          <div className="w-full overflow-x-scroll md:overflow-x-hidden rounded-lg shadow-lg">
+        <>
+          <span className="text-sm text-textPrimary dark:text-darktextPrimary font-semibold">
+            Total de Clientes ({clients.length})
+          </span>
+          {clients.length > 0 ? (
             <TableClients />
-          </div>
-        </div>
+          ) : (
+            <EmptyData title="¡No hay ningun cliente!" />
+          )}
+        </>
       )}
-    </div>
+    </section>
   );
 }

@@ -65,12 +65,14 @@ export default function SearchVehicleBar({
 
   return (
     <div className="relative">
-      <label className="text-slate-800 text-[13px] font-bold leading-tight tracking-normal">
+      <label className="text-textPrimary dark:text-darktextPrimary text-[13px] font-bold leading-tight tracking-normal">
         Vehículo
       </label>
       <div className="relative">
         <input
-          className="mb-5 mt-2 text-gray-600 bg-primary focus:outline-none focus:border focus:border-blue-500 font-normal w-full h-10 flex items-center pl-3 text-sm border-gray-300 rounded border"
+          className="mb-5 mt-2 text-gray-600 dark:text-gray-300 bg-primary dark:bg-darksecondary
+          focus:outline-none focus:border focus:border-third dark:focus:border-third font-normal w-full h-10 flex items-center pl-3 
+          text-sm border-gray-300 dark:border-gray-700 rounded border"
           placeholder="Buscar por patente"
           onChange={handleChange}
           onClick={handleDropdownToggle}
@@ -80,22 +82,22 @@ export default function SearchVehicleBar({
           value={valueInput.patent}
         />
         {sent && errors.patent ? (
-          <p className="absolute top-[41px] text-[11px] italic text-red-600">
+          <p className="absolute top-[41px] text-[12px] font-bold italic text-red-600">
             {errors.patent}
           </p>
         ) : null}
       </div>
       {isOpenDropdown && (
-        <div className="absolute z-10 bg-gray-100 left-0 top-20 right-0 rounded-md max-h-[90px] overflow-y-auto shadow-lg">
+        <div className="absolute z-10 bg-gray-100 dark:bg-gray-700 left-0 top-20 right-0 rounded-md max-h-[90px] overflow-y-auto shadow-lg">
           {vehicles.map((item, index) => (
             <div
               key={index}
               onMouseDown={() =>
                 handleSelectedPatentVehicle(item.patent, Number(item.id))
               }
-              className="p-3 hover:bg-blue-100"
+              className="p-3 hover:bg-blue-100 dark:hover:bg-slate-600"
             >
-              <p className="text-[14px] hover:text-slate-900 hover:font-bold">
+              <p className="text-[14px] text-slate-600 dark:text-slate-200 hover:text-slate-900 hover:font-bold">
                 {item.patent}
               </p>
             </div>

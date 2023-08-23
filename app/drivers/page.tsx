@@ -1,18 +1,25 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { CiSearch } from "react-icons/ci";
-import { IoAddCircleSharp } from "react-icons/io5";
 import { useContextDrivers } from "../context/ContextDrivers";
-import ModalFormDrivers from "../components/ModalFormDrivers";
-import TableDriver from "../components/TableDriver";
 import { useDriversStore } from "@/store/driversStore";
+import { Button } from "@nextui-org/button";
+import { Input } from "@nextui-org/input";
+import TableDriver from "../components/TableDriver";
 import Loading from "../components/Loading";
 import ErrorModal from "../components/ErrorModal";
+import { SearchIcon } from "../components/ui/SearchIcon";
+import { PlusIcon } from "../components/ui/PlusIcon";
+import DropdownAvatar from "../components/DropdownAvatar";
+import DrawerFormDrivers from "../components/drivers/DrawerFormDrivers";
+import EmptyData from "../components/EmptyData";
+import DarkMode from "../components/DarkMode";
+import MenuOpen from "../components/MenuOpen";
 
 export default function Drivers() {
   const [searchValue, setSearchValue] = useState("");
-  const { openModal } = useContextDrivers();
-  const { getDrivers, isLoading, error, toggleError } = useDriversStore();
+  const { openFormDrivers } = useContextDrivers();
+  const { getDrivers, isLoading, error, toggleError, drivers } =
+    useDriversStore();
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -30,50 +37,54 @@ export default function Drivers() {
   };
 
   return (
-    <div className="w-full overflow-hidden">
-      <ModalFormDrivers />
+    <section className="w-full overflow-hidden px-5">
+      <DrawerFormDrivers />
       {error && (
         <ErrorModal
           toggleError={toggleError}
           title=" El email o DNI ingresados ya existen."
         />
       )}
-      <div className="mt-3 mb-6 relative px-8 lg:px-2">
-        <input
-          placeholder="Buscar por Email o DNI del chofer"
-          className="text-gray-600 bg-secondary focus:outline-none focus:border focus:border-blue-500 font-normal lg:w-[35%] w-full h-10 flex items-center pl-[40px] text-sm border-gray-300 rounded border"
-          type="text"
-          value={searchValue}
-          onChange={handleSearchDriver}
-        />
-        <CiSearch
-          className="absolute text-gray-600 top-[11px] lg:left-5 left-11"
-          size={18}
-        />
-      </div>
-      <div className="mx-8 lg:mx-2">
-        <div className="border-t-[1px] border-gray-600/10 mb-3" />
-      </div>
-      <div className="px-8 lg:px-2 pt-5">
-        <div
-          onClick={() => openModal()}
-          className="bg-secondary rounded-lg border-b-4 border-blue-500 flex items-center justify-center cursor-pointer shadow-lg h-36 lg:w-[20%] md:w-[35%] w-full mb-5"
-        >
-          <IoAddCircleSharp size={80} className="text-blue-500" />
+      <div className="flex pt-14 md:pt-0 lg:pt-0 md:flex-row flex-col-reverse gap-y-4 justify-between relative mt-4 mb-5">
+        <div className="flex-1">
+          <MenuOpen />
+          <Input
+            isClearable
+            className="md:w-3/5 lg:w-2/5 w-full sm:max-w-[100%] md:ml-7 lg:ml-0"
+            placeholder="Buscar un chofer..."
+            startContent={<SearchIcon />}
+            type="text"
+            value={searchValue}
+            onChange={handleSearchDriver}
+            onClear={() => setSearchValue("")}
+          />
         </div>
-        <p className="font-bold lg:text-2xl text-lg tracking-[0.4px] text-slate-800">
-          Lista de Choferes
-        </p>
+        <div className="flex flex-row items-center gap-4">
+          <DarkMode />
+          <Button
+            onPress={() => openFormDrivers()}
+            className="bg-third text-primary flex-1"
+            endContent={<PlusIcon />}
+          >
+            Agregar un Chofer
+          </Button>
+          <DropdownAvatar />
+        </div>
       </div>
       {isLoading ? (
         <Loading />
       ) : (
-        <div className="pt-6 pb-20 px-8 lg:px-2 rounded-lg">
-          <div className="lg:w-[60%] w-full overflow-x-scroll md:overflow-x-hidden rounded-lg shadow-lg">
+        <>
+          <span className="text-sm text-textPrimary dark:text-darktextPrimary font-semibold">
+            Total de Choferes ({drivers.length})
+          </span>
+          {drivers.length > 0 ? (
             <TableDriver />
-          </div>
-        </div>
+          ) : (
+            <EmptyData title="¡No hay ningun chofer!" />
+          )}
+        </>
       )}
-    </div>
+    </section>
   );
 }

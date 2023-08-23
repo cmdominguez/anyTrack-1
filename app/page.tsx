@@ -1,14 +1,20 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import { ShippingResponse } from "./interface/interfaceShipping";
+import { useShippingStore } from "../store/shippingStore";
+import { Button } from "@nextui-org/button";
+import { Input } from "@nextui-org/input";
 import CardDashboard from "./components/CardDashboard";
 import Drawer from "./components/Drawer";
-import { ShippingResponse } from "./interface/interfaceShipping";
-import { IoAddCircleSharp } from "react-icons/io5";
-import ModalForm from "./components/ModalForm";
-import { useShippingStore } from "../store/shippingStore";
-import SearchCustom from "./components/SearchCustom";
 import Loading from "./components/Loading";
 import ErrorModal from "./components/ErrorModal";
+import { PlusIcon } from "./components/ui/PlusIcon";
+import { SearchIcon } from "./components/ui/SearchIcon";
+import DrawerFormShipping from "./components/shipping/DrawerFormShipping";
+import DropdownAvatar from "./components/DropdownAvatar";
+import EmptyData from "./components/EmptyData";
+import MenuOpen from "./components/MenuOpen";
+import DarkMode from "./components/DarkMode";
 
 export default function Home() {
   const {
@@ -19,7 +25,7 @@ export default function Home() {
     error,
     toggleError,
   } = useShippingStore();
-  const [showModal, setShowModal] = useState(false);
+  const [showDrawerForm, setShowDrawerForm] = useState(false);
   const [shippingSelected, setShippingSelected] =
     useState<ShippingResponse | null>(null);
 
@@ -31,48 +37,62 @@ export default function Home() {
     setShippingSelected(item);
   };
 
-  const closeModal = () => {
-    setShowModal(false);
+  const closeDrawerForm = () => {
+    setShowDrawerForm(false);
   };
 
   return (
-    <section className="flex-1 mx-5 px-2">
+    <section className="flex-1 mx-5">
       {error && (
         <ErrorModal toggleError={toggleError} title="Error al crear el envío" />
       )}
-      <SearchCustom />
-      <div className="border-t-[1px] border-gray-600/10 mb-3" />
-      <h1 className="my-5 font-bold lg:text-[28px] text-lg tracking-[0.4px] text-slate-800">
-        Tablero de Seguimiento
-      </h1>
+      {showDrawerForm && (
+        <DrawerFormShipping closeDrawerForm={closeDrawerForm} />
+      )}
+      <div className="flex pt-14 md:pt-0 lg:pt-0 md:flex-row flex-col-reverse gap-y-4 justify-between relative mt-4 mb-5">
+        <div className="flex-1">
+          <MenuOpen />
+          <Input
+            isClearable
+            className="md:w-3/5 lg:w-2/5 w-full sm:max-w-[100%] md:ml-7 lg:ml-0"
+            placeholder="Buscar un envío..."
+            startContent={<SearchIcon />}
+            // value={filterValue}
+            // onClear={() => onClear()}
+            // onValueChange={onSearchChange}
+          />
+        </div>
+        <div className="flex flex-row items-center gap-4">
+          <DarkMode />
+          <Button
+            onPress={() => setShowDrawerForm(true)}
+            className="bg-third text-primary flex-1"
+            endContent={<PlusIcon />}
+          >
+            Crear un Envío
+          </Button>
+          <DropdownAvatar />
+        </div>
+      </div>
+
       {isLoading ? (
         <Loading />
       ) : (
         <>
-          <h2 className="mb-5 mt-3 font-bold tracking-[0.5px] lg:text-[20px] text-sm text-slate-800">
-            Envíos{" "}
-            <span className="text-gray-500 text-md">
-              ({shippingResponse.length})
-            </span>
-          </h2>
-          <div className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-4 pb-2">
-            {showModal ? (
-              <ModalForm closeModal={closeModal} />
-            ) : (
-              <div
-                onClick={() => setShowModal(true)}
-                className="bg-secondary rounded-lg border-b-4 border-blue-500 flex items-center justify-center cursor-pointer shadow-lg h-36"
-              >
-                <IoAddCircleSharp size={80} className="text-blue-500" />
-              </div>
-            )}
-
-            {shippingResponse.map((item, index) => {
-              return (
-                <CardDashboard key={index} item={item} onPress={onPress} />
-              );
-            })}
-          </div>
+          <span className="text-sm text-textPrimary dark:text-darktextPrimary font-semibold">
+            Total de envíos ({shippingResponse.length})
+          </span>
+          {shippingResponse.length > 0 ? (
+            <div className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-4 pb-2 mt-5">
+              {shippingResponse.map((item, index) => {
+                return (
+                  <CardDashboard key={index} item={item} onPress={onPress} />
+                );
+              })}
+            </div>
+          ) : (
+            <EmptyData title="¡No hay ningun envío creado!" />
+          )}
         </>
       )}
 

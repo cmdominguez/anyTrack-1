@@ -14,9 +14,9 @@ type Actions = {
   editClient: (id: string, values: Client) => void;
 };
 
-export const useClientUsersStore = create<State & Actions>((set) => ({
+export const useClientsStore = create<State & Actions>((set) => ({
   clients: [],
-  isLoading: false,
+  isLoading: true,
 
   getClients: async (value: string) => {
     try {

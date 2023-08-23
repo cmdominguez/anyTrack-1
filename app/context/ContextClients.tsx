@@ -1,33 +1,33 @@
 "use client";
-import { useClientUsersStore } from "@/store/clientUsersStore";
 import { createContext, useContext, useState } from "react";
 import { Client } from "../interface/interfaceClients";
+import { useClientsStore } from "@/store/clientsStore";
 
 interface AppContext {
   idClient: (id: string) => void;
   clientId: string | null;
   objectToEdit: Client | null;
-  closeModal: () => void;
-  openModal: () => void;
-  showModalClient: boolean;
+  closeFormClient: () => void;
+  openFormClient: () => void;
+  showFormClient: boolean;
 }
 
 const GlobalContextClients = createContext({} as AppContext);
 
 export const ContextClients = ({ children }: { children: React.ReactNode }) => {
-  const [showModalClient, setShowModalClient] = useState(false);
+  const [showFormClient, setShowFormClient] = useState(false);
   const [clientId, setClientId] = useState<string | null>(null);
   const [objectToEdit, setObjectToEdit] = useState<Client | null>(null);
-  const { clients } = useClientUsersStore();
+  const { clients } = useClientsStore();
 
-  const closeModal = () => {
-    setShowModalClient(false);
+  const closeFormClient = () => {
+    setShowFormClient(false);
     setClientId(null);
     setObjectToEdit(null);
   };
 
-  const openModal = () => {
-    setShowModalClient(true);
+  const openFormClient = () => {
+    setShowFormClient(true);
   };
 
   //recibo el id y busco el objeto en clients
@@ -35,7 +35,7 @@ export const ContextClients = ({ children }: { children: React.ReactNode }) => {
     const clientToEdit = clients.find((item) => item.id === id);
     setClientId(id);
     setObjectToEdit(clientToEdit!);
-    openModal();
+    openFormClient();
   };
 
   return (
@@ -44,9 +44,9 @@ export const ContextClients = ({ children }: { children: React.ReactNode }) => {
         idClient,
         clientId,
         objectToEdit,
-        closeModal,
-        openModal,
-        showModalClient,
+        closeFormClient,
+        openFormClient,
+        showFormClient,
       }}
     >
       {children}

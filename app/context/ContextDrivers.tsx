@@ -8,9 +8,9 @@ type Prop = {
 };
 
 interface AppContextDriver {
-  closeModal: () => void;
-  openModal: () => void;
-  showModalDrivers: boolean;
+  closeFormDrivers: () => void;
+  openFormDrivers: () => void;
+  showFormDrivers: boolean;
   idDriver: (id: string) => void;
   driverId: string | null;
   objectToEdit: Driver | null;
@@ -20,18 +20,18 @@ const GlobalContextDrivers = createContext({} as AppContextDriver);
 
 export const ContextDrivers = ({ children }: Prop) => {
   const { drivers } = useDriversStore();
-  const [showModalDrivers, setShowModalDrivers] = useState(false);
+  const [showFormDrivers, setShowFormDrivers] = useState(false);
   const [driverId, setDriverId] = useState<string | null>(null);
   const [objectToEdit, setObjectToEdit] = useState<Driver | null>(null);
 
-  const closeModal = () => {
-    setShowModalDrivers(false);
+  const closeFormDrivers = () => {
+    setShowFormDrivers(false);
     setObjectToEdit(null);
     setDriverId(null);
   };
 
-  const openModal = () => {
-    setShowModalDrivers(true);
+  const openFormDrivers = () => {
+    setShowFormDrivers(true);
   };
 
   //recibo el id y busco el objeto en drivers
@@ -39,15 +39,15 @@ export const ContextDrivers = ({ children }: Prop) => {
     const driverToEdit = drivers.find((item) => item.id === id);
     setDriverId(id);
     setObjectToEdit(driverToEdit!);
-    openModal();
+    openFormDrivers();
   };
 
   return (
     <GlobalContextDrivers.Provider
       value={{
-        closeModal,
-        openModal,
-        showModalDrivers,
+        closeFormDrivers,
+        openFormDrivers,
+        showFormDrivers,
         idDriver,
         driverId,
         objectToEdit,

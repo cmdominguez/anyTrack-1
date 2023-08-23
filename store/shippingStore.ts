@@ -20,7 +20,7 @@ export const useShippingStore = create(
   immer<State & Actions>((set) => ({
     shippings: [],
     shippingResponse: [],
-    isLoading: false,
+    isLoading: true,
     error: false,
 
     getShippings: async () => {

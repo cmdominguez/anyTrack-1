@@ -8,9 +8,9 @@ type Prop = {
 };
 
 interface AppContextVehicle {
-  closeModal: () => void;
-  openModal: () => void;
-  showModalVehicles: boolean;
+  closeFormVehicle: () => void;
+  openFormVehicle: () => void;
+  showFormVehicles: boolean;
   idVehicle: (string: string) => void;
   vehicleId: string | null;
   objectToEdit: VehicleInterface | null;
@@ -20,20 +20,20 @@ const GlobalContextVehicles = createContext({} as AppContextVehicle);
 
 export const ContextVehicles = ({ children }: Prop) => {
   const { vehicles } = useVehiclesStore();
-  const [showModalVehicles, setShowModalVehicles] = useState(false);
+  const [showFormVehicles, setShowFormVehicles] = useState(false);
   const [vehicleId, setVehicleId] = useState<string | null>(null);
   const [objectToEdit, setObjectToEdit] = useState<VehicleInterface | null>(
     null
   );
 
-  const closeModal = () => {
-    setShowModalVehicles(false);
+  const closeFormVehicle = () => {
+    setShowFormVehicles(false);
     setObjectToEdit(null);
     setVehicleId(null);
   };
 
-  const openModal = () => {
-    setShowModalVehicles(true);
+  const openFormVehicle = () => {
+    setShowFormVehicles(true);
   };
 
   //recibo el id y busco el objeto en vehicles
@@ -41,15 +41,15 @@ export const ContextVehicles = ({ children }: Prop) => {
     const vehicleToEdit = vehicles.find((item) => item.id === id);
     setVehicleId(id);
     setObjectToEdit(vehicleToEdit!);
-    openModal();
+    openFormVehicle();
   };
 
   return (
     <GlobalContextVehicles.Provider
       value={{
-        closeModal,
-        openModal,
-        showModalVehicles,
+        closeFormVehicle,
+        openFormVehicle,
+        showFormVehicles,
         idVehicle,
         vehicleId,
         objectToEdit,

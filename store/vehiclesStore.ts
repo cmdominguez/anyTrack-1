@@ -21,7 +21,7 @@ type Actions = {
 
 export const useVehiclesStore = create<State & Actions>((set) => ({
   vehicles: [],
-  isLoading: false,
+  isLoading: true,
   error: false,
 
   getVehicles: async (value: string) => {

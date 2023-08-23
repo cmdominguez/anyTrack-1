@@ -4,6 +4,7 @@ import { ContextDrivers } from "./context/ContextDrivers";
 import { ContextVehicles } from "./context/ContextVehicles";
 import "./globals.css";
 import { Inter } from "next/font/google";
+import { Providers } from "./providers";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,16 +21,18 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <main className="bg-primary flex">
-          <NavList />
-          <div className="min-h-screen flex container mx-auto">
-            <ContextClients>
-              <ContextVehicles>
-                <ContextDrivers>{children}</ContextDrivers>
-              </ContextVehicles>
-            </ContextClients>
-          </div>
-        </main>
+        <Providers>
+          <main className="dark:bg-darkprimary bg-primary flex">
+            <NavList />
+            <div className="min-h-screen flex container mx-auto">
+              <ContextClients>
+                <ContextVehicles>
+                  <ContextDrivers>{children}</ContextDrivers>
+                </ContextVehicles>
+              </ContextClients>
+            </div>
+          </main>
+        </Providers>
       </body>
     </html>
   );
