@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { ShippingResponse } from "./interface/interfaceShipping";
 import { useShippingStore } from "../store/shippingStore";
+import useAnimationStore from "@/store/formAnimation";
 import { Button } from "@nextui-org/button";
 import { Input } from "@nextui-org/input";
 import CardDashboard from "./components/CardDashboard";
@@ -25,6 +26,7 @@ export default function Home() {
     error,
     toggleError,
   } = useShippingStore();
+  const { toggleAnimationForm } = useAnimationStore();
   const [showDrawerForm, setShowDrawerForm] = useState(false);
   const [shippingSelected, setShippingSelected] =
     useState<ShippingResponse | null>(null);
@@ -65,7 +67,9 @@ export default function Home() {
         <div className="flex flex-row items-center gap-4">
           <DarkMode />
           <Button
-            onPress={() => setShowDrawerForm(true)}
+            onPress={() => {
+              setShowDrawerForm(true), toggleAnimationForm();
+            }}
             className="bg-third text-primary flex-1"
             endContent={<PlusIcon />}
           >

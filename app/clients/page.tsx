@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useContextClients } from "../context/ContextClients";
 import { useClientsStore } from "@/store/clientsStore";
+import useAnimationStore from "@/store/formAnimation";
 import { Button } from "@nextui-org/button";
 import { Input } from "@nextui-org/input";
 import Loading from "../components/Loading";
@@ -18,6 +19,7 @@ export default function Clients() {
   const [searchValue, setSearchValue] = useState("");
   const { openFormClient } = useContextClients();
   const { isLoading, getClients, clients } = useClientsStore();
+  const { toggleAnimationForm } = useAnimationStore();
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -54,7 +56,9 @@ export default function Clients() {
         <div className="flex flex-row items-center gap-4">
           <DarkMode />
           <Button
-            onPress={() => openFormClient()}
+            onPress={() => {
+              openFormClient(), toggleAnimationForm();
+            }}
             className="bg-third text-primary flex-1"
             endContent={<PlusIcon />}
           >

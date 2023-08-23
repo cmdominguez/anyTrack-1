@@ -3,6 +3,7 @@ import { ShippingResponse } from "../interface/interfaceShipping";
 import { BsCarFrontFill, BsPerson } from "react-icons/bs";
 import { FaTruck, FaMotorcycle } from "react-icons/fa";
 import TagsInTravel from "./TagsInTravel";
+import useAnimationStore from "@/store/formAnimation";
 
 type Prop = {
   item: ShippingResponse;
@@ -10,12 +11,16 @@ type Prop = {
 };
 
 export default function CardDashboard({ onPress, item }: Prop) {
+  const { toggleAnimationForm } = useAnimationStore();
+
   return (
     <div
       className="bg-secondary hover:bg-navBar 
-      dark:bg-darksecondary dark:hover:bg-[#213358] transition-all duration-300 ease-linear 
+      dark:bg-darksecondary dark:hover:bg-[#213358] 
       rounded-lg p-3 z-10 cursor-pointer border-b-success border-b-4 shadow-md"
-      onClick={() => onPress(item)}
+      onClick={() => {
+        onPress(item), toggleAnimationForm();
+      }}
     >
       <div className="flex flex-col gap-2">
         <div className="flex items-center px-2 gap-3 py-[2px] justify-between">

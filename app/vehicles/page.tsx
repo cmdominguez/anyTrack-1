@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { useContextVehicles } from "../context/ContextVehicles";
 import { useVehiclesStore } from "@/store/vehiclesStore";
+import useAnimationStore from "@/store/formAnimation";
 import { Button } from "@nextui-org/button";
 import { Input } from "@nextui-org/input";
 import TableVehicles from "../components/TableVehicles";
@@ -20,6 +21,7 @@ export default function Vehicles() {
   const { openFormVehicle } = useContextVehicles();
   const { getVehicles, isLoading, error, toggleError, vehicles } =
     useVehiclesStore();
+  const { toggleAnimationForm } = useAnimationStore();
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -59,7 +61,9 @@ export default function Vehicles() {
         <div className="flex flex-row items-center gap-4">
           <DarkMode />
           <Button
-            onPress={() => openFormVehicle()}
+            onPress={() => {
+              openFormVehicle(), toggleAnimationForm();
+            }}
             className="bg-third text-primary flex-1"
             endContent={<PlusIcon />}
           >

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useShippingStore } from "@/store/shippingStore";
+import useAnimationStore from "@/store/formAnimation";
 import InputCustom from "../InputCustom";
 import LayoutFormDrawer from "../LayoutFormDrawer";
 import SearchDriverBar from "../formShipping/SearchDriverBar";
@@ -16,6 +17,7 @@ type Prop = {
 
 export default function DrawerFormShipping({ closeDrawerForm }: Prop) {
   const { addShipping } = useShippingStore();
+  const { toggleAnimationForm } = useAnimationStore();
   const [sent, setSent] = useState(false);
   const [valueInput, setValueInput] = useState({
     driverName: "",
@@ -56,7 +58,13 @@ export default function DrawerFormShipping({ closeDrawerForm }: Prop) {
       return;
     }
 
-    closeDrawerForm();
+    //para realizar la animacion cuando cierra el drawer
+    setTimeout(() => {
+      closeDrawerForm();
+    }, 300);
+
+    toggleAnimationForm();
+
     addShipping(shipping);
   };
 

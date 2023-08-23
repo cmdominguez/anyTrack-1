@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useClientsStore } from "@/store/clientsStore";
+import useAnimationStore from "@/store/formAnimation";
 import InputCustom from "../InputCustom";
 import LayoutFormDrawer from "../LayoutFormDrawer";
 import { useContextClients } from "@/app/context/ContextClients";
@@ -9,6 +10,8 @@ export default function DrawerFormClient() {
   const { addClient, editClient } = useClientsStore();
   const { clientId, objectToEdit, closeFormClient, showFormClient } =
     useContextClients();
+  const { toggleAnimationForm } = useAnimationStore();
+
   const [sent, setSent] = useState(false);
   const [valueInput, setValueInput] = useState({
     address: "",
@@ -62,7 +65,12 @@ export default function DrawerFormClient() {
       addClient(valueInput);
     }
 
-    closeFormClient();
+    //para realizar la animacion cuando cierra el drawer
+    setTimeout(() => {
+      closeFormClient();
+    }, 300);
+
+    toggleAnimationForm();
   };
 
   return (

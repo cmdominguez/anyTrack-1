@@ -21,6 +21,7 @@ import {
 import { EditIcon } from "./ui/EditIcon";
 import { DeleteIcon } from "./ui/DeleteIcon";
 import { Client } from "../interface/interfaceClients";
+import useAnimationStore from "@/store/formAnimation";
 
 const columns = [
   { name: "NOMBRE", uid: "nombre" },
@@ -37,6 +38,7 @@ export default function TableClients() {
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [idClientToDelete, setIdClientToDelete] = useState<string | null>(null);
   const [nameClientToDelete, setNameClientToDelete] = useState("");
+  const { toggleAnimationForm } = useAnimationStore();
 
   useEffect(() => {
     if (confirmDelete) {
@@ -85,7 +87,11 @@ export default function TableClients() {
           <div className="relative flex items-center gap-2">
             <Tooltip content="Editar cliente">
               <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
-                <EditIcon onClick={() => handleEditClient(item.id!)} />
+                <EditIcon
+                  onClick={() => {
+                    handleEditClient(item.id!), toggleAnimationForm();
+                  }}
+                />
               </span>
             </Tooltip>
             <Tooltip color="danger" content="Eliminar cliente">

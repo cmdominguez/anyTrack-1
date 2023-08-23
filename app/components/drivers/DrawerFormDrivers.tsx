@@ -4,12 +4,14 @@ import LayoutFormDrawer from "../LayoutFormDrawer";
 import { useEffect, useState } from "react";
 import { useDriversStore } from "@/store/driversStore";
 import { useValidateFormDrivers } from "@/app/hook/useValidateFormDrivers";
+import useAnimationStore from "@/store/formAnimation";
 
 export default function DrawerFormDrivers() {
   const { closeFormDrivers, showFormDrivers, objectToEdit, driverId } =
     useContextDrivers();
   const [sent, setSent] = useState(false);
   const { addDriver, editDriver } = useDriversStore();
+  const { toggleAnimationForm } = useAnimationStore();
   const [valueInput, setValueInput] = useState({
     email: "",
     name: "",
@@ -53,7 +55,12 @@ export default function DrawerFormDrivers() {
       addDriver(valueInput);
     }
 
-    closeFormDrivers();
+    //para realizar la animacion cuando cierra el drawer
+    setTimeout(() => {
+      closeFormDrivers();
+    }, 300);
+
+    toggleAnimationForm();
   };
 
   return (

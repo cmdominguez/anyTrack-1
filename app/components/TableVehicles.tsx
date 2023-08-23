@@ -21,6 +21,7 @@ import {
 import { EditIcon } from "./ui/EditIcon";
 import { DeleteIcon } from "./ui/DeleteIcon";
 import { VehicleInterface } from "../interface/interfaceVehicles";
+import useAnimationStore from "@/store/formAnimation";
 
 const columns = [
   { name: "PATENTE", uid: "patente" },
@@ -37,6 +38,7 @@ export default function TableVehicles() {
     null
   );
   const [patentVehicleToDelete, setPatentVehicleToDelete] = useState("");
+  const { toggleAnimationForm } = useAnimationStore();
 
   useEffect(() => {
     if (confirmDelete) {
@@ -80,7 +82,11 @@ export default function TableVehicles() {
             <div className="relative flex items-center gap-2">
               <Tooltip content="Editar vehículo">
                 <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
-                  <EditIcon onClick={() => handleEditVehicle(item.id!)} />
+                  <EditIcon
+                    onClick={() => {
+                      handleEditVehicle(item.id!), toggleAnimationForm();
+                    }}
+                  />
                 </span>
               </Tooltip>
               <Tooltip color="danger" content="Eliminar vehículo">

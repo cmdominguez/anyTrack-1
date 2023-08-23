@@ -3,6 +3,7 @@ import InputCustom from "../InputCustom";
 import LayoutFormDrawer from "../LayoutFormDrawer";
 import { useEffect, useState } from "react";
 import { useVehiclesStore } from "@/store/vehiclesStore";
+import useAnimationStore from "@/store/formAnimation";
 import { ValueInput } from "@/app/interface/interfaceVehicles";
 import { useValidateFormVehicles } from "@/app/hook/useValidateFormVehicles";
 
@@ -28,6 +29,7 @@ export default function DrawerFormVehicles() {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState("");
   const { addVehicle, editVehicle } = useVehiclesStore();
+  const { toggleAnimationForm } = useAnimationStore();
   const [valueInput, setValueInput] = useState<ValueInput>({
     patent: "",
     vehicleTypeId: null,
@@ -77,7 +79,13 @@ export default function DrawerFormVehicles() {
     }
 
     setSelectedOption("");
-    closeFormVehicle();
+
+    //para realizar la animacion cuando cierra el drawer
+    setTimeout(() => {
+      closeFormVehicle();
+    }, 300);
+
+    toggleAnimationForm();
   };
 
   return (

@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useContextDrivers } from "../context/ContextDrivers";
 import { useDriversStore } from "@/store/driversStore";
+import useAnimationStore from "@/store/formAnimation";
 import { Button } from "@nextui-org/button";
 import { Input } from "@nextui-org/input";
 import TableDriver from "../components/TableDriver";
@@ -20,6 +21,7 @@ export default function Drivers() {
   const { openFormDrivers } = useContextDrivers();
   const { getDrivers, isLoading, error, toggleError, drivers } =
     useDriversStore();
+  const { toggleAnimationForm } = useAnimationStore();
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -62,7 +64,9 @@ export default function Drivers() {
         <div className="flex flex-row items-center gap-4">
           <DarkMode />
           <Button
-            onPress={() => openFormDrivers()}
+            onPress={() => {
+              openFormDrivers(), toggleAnimationForm();
+            }}
             className="bg-third text-primary flex-1"
             endContent={<PlusIcon />}
           >
