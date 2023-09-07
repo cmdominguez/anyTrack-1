@@ -27,6 +27,12 @@ export default function SearchVehicleBar({
   const errors = useValidate(valueInput);
 
   useEffect(() => {
+    if (valueInput.patent.length < 3) {
+      setVehicles([]);
+      setIsOpenDropdown(false);
+      return;
+    }
+
     const fetchData = async () => {
       try {
         const { data } = await axios.get(
@@ -39,10 +45,6 @@ export default function SearchVehicleBar({
     };
 
     fetchData();
-
-    if (valueInput.patent === "") {
-      setIsOpenDropdown(false);
-    }
   }, [valueInput.patent]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {

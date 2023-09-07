@@ -43,16 +43,12 @@ export default function Drawer({ showDrawer, toggleDrawer, item }: Prop) {
         onClick={handleCloseAnimation}
         className={`backdrop-filter ${
           isAnimation ? "backdrop-blur-md" : "backdrop-blur-none"
-        } fixed w-full right-0 left-0 bottom-0 top-0 z-20 cursor-pointer`}
+        } fixed w-full right-0 left-0 bottom-0 top-0 z-20 cursor-pointer dark:bg-slate-800/40 bg-slate-400/40`}
       />
       <div
         className={`bg-primary dark:bg-darkprimary px-6 py-2 fixed z-20 right-0 top-0 h-full md:w-[420px] w-full 
-          overflow-y-auto md:rounded-tl-[20px] md:rounded-bl-[20px] shadow-xl
-          ${
-            isAnimation
-              ? "animate__animated animate__fadeInRight"
-              : "animate__animated animate__fadeOutRight"
-          }
+          overflow-y-auto md:rounded-tl-[20px] md:rounded-bl-[20px] shadow-xl animate__animated animate__faster
+          ${isAnimation ? "animate__fadeInRight" : "animate__fadeOutRight"}
           `}
       >
         <div

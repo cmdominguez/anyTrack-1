@@ -19,10 +19,21 @@ export default function LayoutFormDrawer({
   const { isAnimation, toggleAnimationForm } = useAnimationStore();
 
   const handleCloseAnimation = () => {
-    setTimeout(() => {
-      closeDrawerForm();
-    }, 300),
-      toggleAnimationForm();
+    if (window.innerWidth >= 1024) {
+      setTimeout(() => {
+        closeDrawerForm();
+      }, 300),
+        toggleAnimationForm();
+    }
+  };
+
+  const handleCloseFormResponsive = () => {
+    if (window.innerWidth <= 1024) {
+      setTimeout(() => {
+        closeDrawerForm();
+      }, 300),
+        toggleAnimationForm();
+    }
   };
 
   return (
@@ -31,19 +42,19 @@ export default function LayoutFormDrawer({
         onClick={handleCloseAnimation}
         className={`backdrop-filter ${
           isAnimation ? "backdrop-blur-md" : "backdrop-blur-none"
-        } fixed w-full right-0 left-0 bottom-0 top-0 z-20 cursor-pointer`}
+        } fixed w-full right-0 left-0 bottom-0 top-0 z-20 cursor-pointer dark:bg-slate-800/40 bg-slate-400/40`}
       />
       <div
-        className={`bg-primary dark:bg-darkprimary ${
-          isAnimation
-            ? "animate__animated animate__fadeInRight"
-            : "animate__animated animate__fadeOutRight"
-        } z-30 fixed right-0 top-0 lg:w-[40%] md:w-3/5 w-full h-full px-6 py-4 overflow-auto min-h-screen shadow-xl md:rounded-tl-[20px] md:rounded-bl-[20px]`}
+        className={`bg-primary dark:bg-darkprimary z-20 animate__animated animate__faster ${
+          isAnimation ? "animate__fadeInRight" : "animate__fadeOutRight"
+        } fixed right-0 top-0 lg:w-[40%] md:w-3/5 w-full h-full px-6 py-4 overflow-auto min-h-screen shadow-xl md:rounded-tl-[20px] md:rounded-bl-[20px]`}
       >
         <form onSubmit={handleSubmit} className="relative">
           <div className="flex items-center justify-center mb-4 h-10">
             <div
-              onClick={handleCloseAnimation}
+              onClick={() => {
+                handleCloseAnimation(), handleCloseFormResponsive();
+              }}
               className="bg-third absolute top-0 left-0 cursor-pointer w-10 h-10 flex justify-center items-center rounded-full"
             >
               <RxCross1 size={22} className="text-primary" />

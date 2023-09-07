@@ -27,6 +27,12 @@ export default function SearchReceivedClientBar({
   const errors = useValidate(valueInput);
 
   useEffect(() => {
+    if (valueInput.receivedClient.length < 3) {
+      setClients([]);
+      setIsOpenDropdown(false);
+      return;
+    }
+
     const fetchData = async () => {
       try {
         const { data } = await axios.get(
@@ -37,10 +43,6 @@ export default function SearchReceivedClientBar({
         console.log(error);
       }
     };
-
-    if (valueInput.receivedClient === "") {
-      setIsOpenDropdown(false);
-    }
 
     fetchData();
   }, [valueInput.receivedClient]);

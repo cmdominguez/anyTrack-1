@@ -28,6 +28,12 @@ export default function SearchDriverBar({
   const errors = useValidate(valueInput);
 
   useEffect(() => {
+    if (valueInput.driverName.length < 3) {
+      setDrivers([]);
+      setIsOpenDropdown(false);
+      return;
+    }
+
     const fetchData = async () => {
       try {
         const { data } = await axios.get(
@@ -40,10 +46,6 @@ export default function SearchDriverBar({
     };
 
     fetchData();
-
-    if (valueInput.driverName === "") {
-      setIsOpenDropdown(false);
-    }
   }, [valueInput.driverName]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
